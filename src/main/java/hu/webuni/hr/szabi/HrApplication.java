@@ -39,9 +39,10 @@ public class HrApplication implements CommandLineRunner {
     }
 
     void setUpEmployees() {
-        employeeList.add(new Employee(1l, "Teszt Béla", "Elnök", 100000, LocalDateTime.of(2005, Month.JULY, 29, 19, 30, 40)));
-        employeeList.add(new Employee(2l, "Teszt Tamás", "Elnök", 200000, LocalDateTime.of(2018, Month.JANUARY, 29, 19, 30, 40)));
-        employeeList.add(new Employee(3l, "Teszt Aladár", "Elnök", 350000, LocalDateTime.of(2012, Month.APRIL, 29, 19, 30, 40)));
+        employeeList.add(new Employee(1l, "Teszt Junior", "Junior", 100000, LocalDateTime.of(2020, Month.JULY, 29, 19, 30, 40)));
+        employeeList.add(new Employee(1l, "Teszt Béla", "Expert", 250000, LocalDateTime.of(2018, Month.JULY, 29, 19, 30, 40)));
+        employeeList.add(new Employee(2l, "Teszt Tamás", "Senior", 700000, LocalDateTime.of(2015, Month.JANUARY, 29, 19, 30, 40)));
+        employeeList.add(new Employee(3l, "Teszt Aladár", "Vice President", 1350000, LocalDateTime.of(2000, Month.APRIL, 29, 19, 30, 40)));
 
     }
 
