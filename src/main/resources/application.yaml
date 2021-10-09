@@ -1,0 +1,12 @@
+hr:
+  limits:
+    LIMIT1:
+      maxmonth: 24
+      percentage: 0
+    LIMIT2:
+      maxmonth: 24
+      percentage: 0
+    LIMIT3:
+      maxmonth: 60
+      percentage: 2
+  maxPercentage: 10

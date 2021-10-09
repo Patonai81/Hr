@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
-@Profile("!smart")
+@Profile("default")
 public class DefaultEmployeeService implements EmployeeService {
 
     @Override

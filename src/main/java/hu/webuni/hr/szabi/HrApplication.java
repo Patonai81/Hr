@@ -2,6 +2,7 @@ package hu.webuni.hr.szabi;
 
 import hu.webuni.hr.szabi.model.Employee;
 import hu.webuni.hr.szabi.service.SalaryService;
+import hu.webuni.hr.szabi.service.configuration.SalaryRelatedYamlConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -29,6 +30,7 @@ public class HrApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
         setUpEmployees();
         employeeList.stream().forEach((f) -> {
             System.out.println("Before: " + f);

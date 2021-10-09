@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Component
 @ConfigurationProperties("hr")
 @Validated
-public class SalaryRelatedConfiguration {
+public class SalaryRelatedPropertyConfiguration {
 
     @Value("#{${hr.employeeService.limits}}")
     Map<String, Map<String, String>> salaryConfig;
@@ -37,7 +37,6 @@ public class SalaryRelatedConfiguration {
     public void setMapOfList(Map<String, Map<String, String>> mapOfList) {
         this.salaryConfig = mapOfList;
     }
-
 
     private Map<String, Map<String, String>> orderConfig() {
 
