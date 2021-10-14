@@ -2,7 +2,7 @@ package hu.webuni.hr.szabi;
 
 import hu.webuni.hr.szabi.model.Employee;
 import hu.webuni.hr.szabi.service.SalaryService;
-import hu.webuni.hr.szabi.service.configuration.SalaryRelatedYamlConfiguration;
+import hu.webuni.hr.szabi.service.configuration.ConfigObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,15 +18,18 @@ import java.util.List;
 @EnableConfigurationProperties
 public class HrApplication implements CommandLineRunner {
 
-
     @Autowired
     SalaryService salaryService;
+
+    @Autowired
+    ConfigObject configObject;
 
     List<Employee> employeeList = new ArrayList<Employee>(6);
 
     public static void main(String[] args) {
         SpringApplication.run(HrApplication.class, args);
     }
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -37,6 +40,8 @@ public class HrApplication implements CommandLineRunner {
             salaryService.increaseEmployeeSalary(f);
             System.out.println("After: " + f);
         });
+
+
 
     }
 

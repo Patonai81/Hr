@@ -1,0 +1,12 @@
+#server:
+#  servlet:
+#    context-path: /hr
+
+
+
+  thymeleaf:
+    cache: false
+
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss

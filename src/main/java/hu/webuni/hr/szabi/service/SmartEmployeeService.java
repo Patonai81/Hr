@@ -1,38 +1,20 @@
 package hu.webuni.hr.szabi.service;
 
 import hu.webuni.hr.szabi.model.Employee;
-import hu.webuni.hr.szabi.service.configuration.SalaryRelatedPropertyConfiguration;
+import hu.webuni.hr.szabi.service.configuration.ConfigObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Map;
-
-import static hu.webuni.hr.szabi.service.configuration.SalaryRelatedPropertyConfiguration.MAXMONTH;
-import static hu.webuni.hr.szabi.service.configuration.SalaryRelatedPropertyConfiguration.PERCENTAGE;
-
-
+@Service
+@Profile("smart")
 public class SmartEmployeeService implements EmployeeService {
 
     @Autowired
-    SalaryRelatedPropertyConfiguration salaryRelatedConfiguration;
+    ConfigObject configObject;
 
     @Override
     public int getPayRaisePercentage(Employee employee) {
-
-        final long monthsBetween = calculateMonths(employee);
-
-        try {
-            Map<String, String> configItem = salaryRelatedConfiguration.getMapOfList().entrySet().stream().filter(
-                    (item) -> {
-                        return Integer.valueOf(item.getValue().get(MAXMONTH)) > monthsBetween;
-                    }
-            ).findFirst().orElse(null).getValue();
-            return Integer.valueOf(configItem.get(PERCENTAGE));
-
-        } catch (NullPointerException e) {
-            return salaryRelatedConfiguration.getMaxPercentage();
-        }
-
+        return configObject.getLimits().floorEntry(new Double(calculateMonths(employee))).getValue();
     }
 }
