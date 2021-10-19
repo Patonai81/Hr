@@ -10,7 +10,7 @@ spring:
     format:
       date-time: yyyy-MM-dd HH:mm:ss
 
-#Basic configuration
+
 hr:
   limits:
     1: 1
