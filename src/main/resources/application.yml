@@ -1,3 +1,15 @@
+spring:
+  profiles:
+    active:
+      - smart
+
+  thymeleaf:
+    cache: false
+
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
+
 #Basic configuration
 hr:
   limits:
@@ -5,9 +17,11 @@ hr:
     2.5: 2
     5: 5
     10: 10
-    7.5: 8
+
 
   normal: 5
+
+
 
 
 

@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
-@EnableConfigurationProperties
 public class HrApplication implements CommandLineRunner {
 
     @Autowired
@@ -33,7 +32,7 @@ public class HrApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
+/*
         setUpEmployees();
         employeeList.stream().forEach((f) -> {
             System.out.println("Before: " + f);
@@ -41,7 +40,7 @@ public class HrApplication implements CommandLineRunner {
             System.out.println("After: " + f);
         });
 
-
+*/
 
     }
 

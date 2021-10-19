@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee List</title>
+    <link rel="stylesheet" href="/index.css">
+</head>
+<body>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>NAME</th>
+        <th>ASSIGNMENT</th>
+        <th>SALARY</th>
+        <th>START WORK</th>
+    </tr>
+
+    <tr th:each="employee : ${employeeList}">
+        <td th:text="${employee.id}">Id</td>
+        <td>
+            <a th:href="@{/employeeManager/{id}(id=${employee.id})}" th:text="${employee.employeeName}" target="_blank" />
+        </td>
+        <td th:text="${employee.assignment}">Assignment</td>
+        <td th:text="${employee.salary}">Salary</td>
+        <td th:text="${#temporals.format(employee.startWork,'yyyy-MM-dd')}">Start Work Date</td>
+    </tr>
+</table>
+
+<form th:action="@{/employeeManager}" method="post" th:object="${newEmployee}">
+    Employee IdDDD:<input  th:field="*{id}" />
+    Employee Name:<input  th:field="*{employeeName}" />
+    Employee Assignment:<input  th:field="*{assignment}" />
+    Employee Salary:<input   th:field="*{salary}" />
+    Employee Start Works:<input  th:field="*{startWork}" placeholder="YYYY-MM-DD format"  />
+<div><input type="submit" value="Elküld"></div>
+
+</form>
+
+</body>
+</html>

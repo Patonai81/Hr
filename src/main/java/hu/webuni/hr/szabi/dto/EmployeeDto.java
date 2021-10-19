@@ -1,9 +1,11 @@
-package hu.webuni.hr.szabi.model;
+package hu.webuni.hr.szabi.dto;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
-public class Employee {
+public class EmployeeDto {
+
 
     /**
      * Internal identifier
@@ -28,12 +30,20 @@ public class Employee {
     /**
      * Time of employee entry
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     public LocalDateTime startWork;
 
-    public Employee() {
+    public EmployeeDto() {
     }
 
-    public Employee(Long id, String employeeName, String assignment, Integer salary, LocalDateTime startWork) {
+    public EmployeeDto(EmployeeDto newEmp){
+        this.employeeName = newEmp.employeeName;
+        this.assignment = newEmp.assignment;
+        this.salary = newEmp.salary;
+        this.startWork = newEmp.startWork;
+    }
+
+    public EmployeeDto(Long id, String employeeName, String assignment, Integer salary, LocalDateTime startWork) {
         this.id = id;
         this.employeeName = employeeName;
         this.assignment = assignment;
@@ -53,8 +63,8 @@ public class Employee {
         return employeeName;
     }
 
-    public void setEmployeeName(String emploeeName) {
-        this.employeeName = emploeeName;
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
     }
 
     public String getAssignment() {
@@ -79,29 +89,5 @@ public class Employee {
 
     public void setStartWork(LocalDateTime startWork) {
         this.startWork = startWork;
-    }
-
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "id=" + id +
-                ", employeeName='" + employeeName + '\'' +
-                ", assignment='" + assignment + '\'' +
-                ", salary=" + salary +
-                ", startWork=" + startWork +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Employee employee = (Employee) o;
-        return id.equals(employee.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }

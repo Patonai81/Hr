@@ -1,0 +1,19 @@
+table{
+    width: 50%;
+    border: azure solid;
+}
+td,th{
+    padding-left: 20px;
+}
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input{
+    width: 30%;
+}
+
+div {
+    margin-top: 20px;
+}

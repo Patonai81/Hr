@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <title>Employee Detail</title>
+  <link rel="stylesheet" href="/index.css">
+</head>
+<body>
+
+<!-- th:action="@{/employeeManager/{idph}(idph=1)}"
+<form th:action="@{/employeeManager/{idph}(idph=${myId})}"  method="post" th:object="${employeeDetail}">
+  Employee Id:<input   th:field="*{id}" th:text="${employeeDetail.id}" disabled />
+  Employee Name:<input  th:field="*{employeeName}" th:text="${employeeDetail.employeeName}" />
+  Employee Assignment:<input  th:field="*{assignment}" th:text="${employeeDetail.assignment}" />
+  Employee Salary:<input   th:field="*{salary}"  th:text="${employeeDetail.salary}"/>
+  Employee Start Works:<input  th:field="*{startWork}" th:text="${employeeDetail.startWork}"  />
+  <div><input type="submit" value="Módosít"></div>
+
+</form> -->
+
+<form th:action="@{/employeeManager/{idph}(idph=${myId})}"  method="post" th:object="${employeeDetail}">
+  Employee Id:<input   th:field="*{id}"  disabled />
+  Employee Name:<input  th:field="*{employeeName}" />
+  Employee Assignment:<input  th:field="*{assignment}" />
+  Employee Salary:<input   th:field="*{salary}" />
+  Employee Start Works:<input  th:field="*{startWork}"   />
+  <div><input type="submit" value="Módosít"></div>
+
+</form>
+
+
+</body>
+</html>
