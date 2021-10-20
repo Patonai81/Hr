@@ -90,4 +90,15 @@ public class EmployeeDto {
     public void setStartWork(LocalDateTime startWork) {
         this.startWork = startWork;
     }
+
+    @Override
+    public String toString() {
+        return "EmployeeDto{" +
+                "id=" + id +
+                ", employeeName='" + employeeName + '\'' +
+                ", assignment='" + assignment + '\'' +
+                ", salary=" + salary +
+                ", startWork=" + startWork +
+                '}';
+    }
 }

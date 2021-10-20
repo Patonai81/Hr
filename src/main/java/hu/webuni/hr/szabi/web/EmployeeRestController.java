@@ -2,6 +2,7 @@ package hu.webuni.hr.szabi.web;
 
 import hu.webuni.hr.szabi.dto.EmployeeDto;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
@@ -12,6 +13,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController()
+@Component("employeeRest")
 @RequestMapping("/api/employees")
 public class EmployeeRestController {
 
