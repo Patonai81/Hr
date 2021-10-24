@@ -4,26 +4,27 @@ import java.util.List;
 
 public class CompanyDto {
 
-    String companyId;
+    Integer companyId;
     String name;
     String address;
     List<EmployeeDto> employeesList;
 
-    public CompanyDto() {
+    public CompanyDto( CompanyDto input ) {
+        this (input.companyId,input.name,input.address,null);
     }
 
-    public CompanyDto(String companyId, String name, String address, List<EmployeeDto> employeesList) {
+    public CompanyDto(Integer companyId, String name, String address, List<EmployeeDto> employeesList) {
         this.companyId = companyId;
         this.name = name;
         this.address = address;
         this.employeesList = employeesList;
     }
 
-    public String getCompanyId() {
+    public Integer getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(String companyId) {
+    public void setCompanyId(Integer companyId) {
         this.companyId = companyId;
     }
 

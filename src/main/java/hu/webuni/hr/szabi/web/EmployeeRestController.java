@@ -1,6 +1,9 @@
 package hu.webuni.hr.szabi.web;
 
 import hu.webuni.hr.szabi.dto.EmployeeDto;
+import hu.webuni.hr.szabi.model.Employee;
+import hu.webuni.hr.szabi.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,9 @@ public class EmployeeRestController {
 
     Map<Integer, EmployeeDto> employeeDtoMap = new HashMap<>();
 
+    @Autowired
+    EmployeeService employeeService;
+
     @PostConstruct
     public void init() {
         employeeDtoMap.put(1, new EmployeeDto(1l, "Szabi", "Worker", 1000, LocalDateTime.of(2021, 4, 13, 8, 0, 0)));
@@ -36,7 +42,6 @@ public class EmployeeRestController {
     public EmployeeDto getEmployeeList(@PathVariable Integer id) {
         return employeeDtoMap.get(id);
     }
-
 
     @PostMapping
     public ResponseEntity<EmployeeDto> addNewEmployee(@RequestBody EmployeeDto employeeDto) {
@@ -63,6 +68,11 @@ public class EmployeeRestController {
     @DeleteMapping("/{id}")
     public void deleteEmployee(@PathVariable long id) {
         employeeDtoMap.remove(id);
+    }
+
+    @PostMapping("/raiseSalary")
+    public int getPayRaisePercentage(@RequestBody  Employee e){
+        return employeeService.getPayRaisePercentage(e);
     }
 
 }
