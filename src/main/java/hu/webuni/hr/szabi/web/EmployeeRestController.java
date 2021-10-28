@@ -1,14 +1,20 @@
 package hu.webuni.hr.szabi.web;
 
 import hu.webuni.hr.szabi.dto.EmployeeDto;
+import hu.webuni.hr.szabi.exception.EmployeeCouldNotBeCreatedException;
 import hu.webuni.hr.szabi.model.Employee;
 import hu.webuni.hr.szabi.service.EmployeeService;
+import hu.webuni.hr.szabi.validation.EmployeeDtoValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -21,9 +27,13 @@ import java.util.stream.Collectors;
 public class EmployeeRestController {
 
     Map<Integer, EmployeeDto> employeeDtoMap = new HashMap<>();
+    Logger logger = LoggerFactory.getLogger(EmployeeRestController.class);
 
     @Autowired
     EmployeeService employeeService;
+
+    @Autowired
+    EmployeeDtoValidator employeeDtoValidator;
 
     @PostConstruct
     public void init() {
@@ -44,7 +54,13 @@ public class EmployeeRestController {
     }
 
     @PostMapping
-    public ResponseEntity<EmployeeDto> addNewEmployee(@RequestBody EmployeeDto employeeDto) {
+    public ResponseEntity<EmployeeDto> addNewEmployee(@RequestBody EmployeeDto employeeDto, BindingResult result) {
+
+        employeeDtoValidator.validate(employeeDto,result);
+        if (result.hasErrors()){
+            logger.error("Add new employee has error!");
+           throw new EmployeeCouldNotBeCreatedException(result.toString());
+        }
 
         if (employeeDtoMap.containsKey(employeeDto.getId().intValue())) {
             return ResponseEntity.unprocessableEntity().build();
@@ -55,7 +71,7 @@ public class EmployeeRestController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EmployeeDto> modifyEmployee(@PathVariable Integer id,@RequestBody EmployeeDto employeeDto) {
+    public ResponseEntity<EmployeeDto> modifyEmployee(@PathVariable Integer id,@RequestBody @Valid EmployeeDto employeeDto) {
 
         if (!employeeDtoMap.containsKey(id)) {
             return ResponseEntity.unprocessableEntity().build();

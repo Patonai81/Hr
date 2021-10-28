@@ -1,7 +1,10 @@
 package hu.webuni.hr.szabi.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import hu.webuni.hr.szabi.validation.RealSalary;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
 public class EmployeeDto {
@@ -15,22 +18,26 @@ public class EmployeeDto {
     /**
      * Name of employee
      */
+    @NotEmpty
     String employeeName;
 
     /**
      * Actual assignment of employee
      */
+    @NotEmpty
     String assignment;
 
     /**
      * Current salarí of employee
      */
+    @RealSalary
     Integer salary;
 
     /**
      * Time of employee entry
      */
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @Future
     public LocalDateTime startWork;
 
     public EmployeeDto() {

@@ -10,7 +10,6 @@ spring:
     format:
       date-time: yyyy-MM-dd HH:mm:ss
 
-
 hr:
   limits:
     1: 1
@@ -20,7 +19,9 @@ hr:
 
 
   normal: 5
-
+server:
+  error:
+    include-message: always
 
 
 
