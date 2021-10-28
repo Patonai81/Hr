@@ -4,6 +4,7 @@ import hu.webuni.hr.szabi.model.Employee;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 public interface EmployeeService {
 
@@ -13,4 +14,14 @@ public interface EmployeeService {
         return  ChronoUnit.MONTHS.between(employee.getStartWork(), LocalDateTime.now());
 
     }
+
+    List<Employee> findAll();
+
+    Employee findByid(Integer id);
+
+    Employee save(Employee employee);
+
+    Employee replace(Integer id, Employee employee);
+
+    Employee remove(Integer id);
 }

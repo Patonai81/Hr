@@ -25,7 +25,7 @@ public class CompanRestController {
 
     @PostConstruct
     public void init() {
-        companies.put(1, new CompanyDto(1, "Name", "Address", employeeRestController.getEmployeeList()));
+       // companies.put(1, new CompanyDto(1, "Name", "Address", employeeRestController.getEmployeeList()));
 
     }
 

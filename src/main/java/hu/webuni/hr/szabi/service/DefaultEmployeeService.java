@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Profile("default")
-public class DefaultEmployeeService implements EmployeeService {
+public class DefaultEmployeeService extends AbstractEmployeeService {
 
     @Autowired
     ConfigObject configObject;
