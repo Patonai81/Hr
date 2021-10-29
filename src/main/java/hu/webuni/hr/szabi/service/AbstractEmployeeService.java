@@ -74,6 +74,19 @@ public abstract class AbstractEmployeeService implements EmployeeService {
         return employee;
     }
 
+    @Override
+    public void saveAll(List<Employee> employeeList) {
+        employeeList.stream().filter( employee -> {
+           return !employeeDtoMap.containsKey(employee.getId().intValue());
+        }).forEach(employee -> {employeeDtoMap.put(employee.getId().intValue(),employee);
+        });
+    }
+
+    @Override
+    public void removeAll(List<Employee> employeeList) {
+        employeeDtoMap.values().removeAll(employeeList);
+    }
+
     private boolean checkExist(Integer id) {
         return  (employeeDtoMap.containsKey(id));
     }

@@ -21,7 +21,13 @@ public interface EmployeeService {
 
     Employee save(Employee employee);
 
+    void saveAll(List<Employee> employeeList);
+
+    void removeAll(List<Employee> employeeList);
+
     Employee replace(Integer id, Employee employee);
 
     Employee remove(Integer id);
+
+
 }

@@ -1,4 +1,4 @@
-package hu.webuni.hr.szabi;
+package hu.webuni.hr.szabi.mapper;
 
 
 import hu.webuni.hr.szabi.dto.EmployeeDto;

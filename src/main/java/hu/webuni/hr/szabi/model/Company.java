@@ -1,22 +1,22 @@
-package hu.webuni.hr.szabi.dto;
+package hu.webuni.hr.szabi.model;
 
 import java.util.List;
 
-public class CompanyDto {
+public class Company {
 
     Integer companyId;
     String name;
     String address;
-    List<EmployeeDto> employeesList;
+    List<Employee> employeesList;
 
-    public CompanyDto() {
+    public Company() {
     }
 
-    public CompanyDto(CompanyDto input ) {
+    public Company(Company input) {
         this (input.companyId,input.name,input.address,null);
     }
 
-    public CompanyDto(Integer companyId, String name, String address, List<EmployeeDto> employeesList) {
+    public Company(Integer companyId, String name, String address, List<Employee> employeesList) {
         this.companyId = companyId;
         this.name = name;
         this.address = address;
@@ -47,11 +47,12 @@ public class CompanyDto {
         this.address = address;
     }
 
-    public List<EmployeeDto> getEmployeesList() {
+    public List<Employee> getEmployeesList() {
         return employeesList;
     }
 
-    public void setEmployeesList(List<EmployeeDto> employeesList) {
+    public void setEmployeesList(List<Employee> employeesList) {
         this.employeesList = employeesList;
     }
 }
+

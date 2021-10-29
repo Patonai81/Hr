@@ -1,8 +1,8 @@
 package hu.webuni.hr.szabi.web;
 
-import hu.webuni.hr.szabi.EmployeeMapper;
 import hu.webuni.hr.szabi.dto.EmployeeDto;
 import hu.webuni.hr.szabi.exception.EmployeeCouldNotBeCreatedException;
+import hu.webuni.hr.szabi.mapper.EmployeeMapper;
 import hu.webuni.hr.szabi.service.EmployeeService;
 import hu.webuni.hr.szabi.validation.EmployeeDtoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class EmployeeRestController {
     EmployeeDtoValidator employeeDtoValidator;
 
     @Autowired
-    EmployeeMapper employeeMapper;
+    EmployeeMapper employeeMapperecske;
 
     @Autowired
     EmployeeService employeeService;
@@ -32,13 +32,13 @@ public class EmployeeRestController {
     @GetMapping
     @CrossOrigin(origins = "http://localhost:63343")
     public List<EmployeeDto> getEmployeeList() {
-        return employeeMapper.toEmployeeDtoList(employeeService.findAll());
+        return employeeMapperecske.toEmployeeDtoList(employeeService.findAll());
     }
 
 
     @GetMapping("/{id}")
     public EmployeeDto getEmployeeList(@PathVariable Integer id) {
-        return employeeMapper.toEmployeeDto(employeeService.findByid(id));
+        return employeeMapperecske.toEmployeeDto(employeeService.findByid(id));
     }
 
 
@@ -51,12 +51,12 @@ public class EmployeeRestController {
             throw new EmployeeCouldNotBeCreatedException(result.toString());
         }
 
-        return ResponseEntity.ok(employeeMapper.toEmployeeDto(employeeService.save(employeeMapper.toEmployee(employeeDto))));
+        return ResponseEntity.ok(employeeMapperecske.toEmployeeDto(employeeService.save(employeeMapperecske.toEmployee(employeeDto))));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<EmployeeDto> modifyEmployee(@PathVariable Integer id,@RequestBody @Valid EmployeeDto employeeDto) {
-        return ResponseEntity.ok(employeeMapper.toEmployeeDto(employeeService.replace(id,employeeMapper.toEmployee(employeeDto))));
+        return ResponseEntity.ok(employeeMapperecske.toEmployeeDto(employeeService.replace(id, employeeMapperecske.toEmployee(employeeDto))));
     }
 
     @DeleteMapping("/{id}")
@@ -66,7 +66,7 @@ public class EmployeeRestController {
 
     @PostMapping("/raiseSalary")
     public int getPayRaisePercentage(@RequestBody  EmployeeDto e){
-        return employeeService.getPayRaisePercentage(employeeMapper.toEmployee(e));
+        return employeeService.getPayRaisePercentage(employeeMapperecske.toEmployee(e));
     }
 
 }
