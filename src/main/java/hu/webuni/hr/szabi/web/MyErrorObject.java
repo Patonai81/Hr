@@ -10,6 +10,9 @@ public class MyErrorObject {
     private Integer errorCode;
     private List<FieldError> fieldErrorList;
 
+    public MyErrorObject() {
+    }
+
     public MyErrorObject(String errorText, Integer errorCode, List<FieldError> fieldErrorList) {
         this(errorText,errorCode);
         this.fieldErrorList = fieldErrorList;

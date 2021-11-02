@@ -56,6 +56,7 @@ public class EmployeeRestController {
 
     @PutMapping("/{id}")
     public ResponseEntity<EmployeeDto> modifyEmployee(@PathVariable Integer id,@RequestBody @Valid EmployeeDto employeeDto) {
+        System.out.println("Modify employee called");
         return ResponseEntity.ok(employeeMapperecske.toEmployeeDto(employeeService.replace(id, employeeMapperecske.toEmployee(employeeDto))));
     }
 
