@@ -1,7 +1,9 @@
 package hu.webuni.hr.szabi.service;
 
+import hu.webuni.hr.szabi.exception.EmployeeColdNotFoundException;
 import hu.webuni.hr.szabi.exception.EmployeeCouldNotBeCreatedException;
 import hu.webuni.hr.szabi.model.Employee;
+import hu.webuni.hr.szabi.repository.EmployeeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,55 +11,57 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Component
 @Profile("none")
 public abstract class AbstractEmployeeService implements EmployeeService {
 
     @Autowired
-    EmployeeService employeeService;
+    EmployeeRepository employeeRepository;
 
-    Map<Integer, Employee> employeeDtoMap = new HashMap<>();
     Logger logger = LoggerFactory.getLogger(AbstractEmployeeService.class);
 
     @PostConstruct
     public void init() {
-        employeeDtoMap.put(1, new Employee(1l, "Szabi", "Worker", 1000, LocalDateTime.of(2021, 4, 13, 8, 0, 0)));
-        employeeDtoMap.put(2, new Employee(2l, "Béla", "Worker2", 2000, LocalDateTime.of(2018, 4, 13, 8, 0, 0)));
 
     }
 
     @Override
     public List<Employee> findAll() {
-        logger.debug("findAll", employeeDtoMap.values());
-        return new ArrayList(employeeDtoMap.values());
+     //   List<Employee> employeeList = employeeRepository.whatIs();
+       List<Employee> employeeList = employeeRepository.findAll();
+        logger.debug("findAll", employeeList);
+        return employeeList;
     }
 
     @Override
     public Employee findByid(Integer id) {
         logger.debug("Incoming employee ID: " + id);
-        return employeeDtoMap.get(id);
+        return employeeRepository.findById(Integer.toUnsignedLong(id)).orElseThrow( () -> new EmployeeCouldNotBeCreatedException("Cannot find Employ"));
     }
 
     @Override
+    @Transactional
     public Employee save(Employee employee) {
         if (checkExist(employee.getId().intValue())){
             throw new EmployeeCouldNotBeCreatedException("Given ID is not unique: " + employee.getId().intValue());
         }
-        employeeDtoMap.put(employee.getId().intValue(), employee);
+        employeeRepository.save(employee);
         logger.debug("Employee successfully created with id: " + employee.getId());
         return employee;
     }
 
     @Override
+    @Transactional
     public Employee replace(Integer id, Employee employee) {
-        employeeDtoMap.put(employee.getId().intValue(), employee);
-        logger.debug("Employee successfully replaced with id: " + employee.getId());
+        if (!employeeRepository.existsById(Long.valueOf(id))){
+            throw new EmployeeCouldNotBeCreatedException("Employee does not exists with this id, so cannot be updated");
+        }
+        employeeRepository.save(employee);
+        logger.debug("Employee successfully replaced with id: " + id);
         return employee;
     }
 
@@ -66,7 +70,7 @@ public abstract class AbstractEmployeeService implements EmployeeService {
         Employee employee= null;
 
         if (checkExist(id)) {
-            employee = employeeDtoMap.remove(id);
+        employeeRepository.delete(employeeRepository.findById(id.longValue()).orElseThrow(() ->new EmployeeColdNotFoundException("Cannot find emploee with given id")));
         }else {
             throw new EmployeeCouldNotBeCreatedException("Cannot delete this user because it does not EXIST "+id);
         }
@@ -76,19 +80,26 @@ public abstract class AbstractEmployeeService implements EmployeeService {
 
     @Override
     public void saveAll(List<Employee> employeeList) {
-        employeeList.stream().filter( employee -> {
-           return !employeeDtoMap.containsKey(employee.getId().intValue());
-        }).forEach(employee -> {employeeDtoMap.put(employee.getId().intValue(),employee);
-        });
+        employeeRepository.saveAll(employeeList);
     }
 
     @Override
     public void removeAll(List<Employee> employeeList) {
-        employeeDtoMap.values().removeAll(employeeList);
+        employeeRepository.deleteAll(employeeList);
+    }
+
+    @Override
+    public List<Employee> findEmployeesByStartingLetters(String nameFraction) {
+        return employeeRepository.findByEmployeeNameStartsWithIgnoreCaseOrderByEmployeeNameDesc(nameFraction);
+    }
+
+    @Override
+    public List<Employee> findEmployeesBetweenStartDates(LocalDateTime startWorkStart, LocalDateTime startWorkEnd) {
+        return employeeRepository.findEmployeesBetweenStartDates(startWorkStart,startWorkEnd);
     }
 
     private boolean checkExist(Integer id) {
-        return  (employeeDtoMap.containsKey(id));
+        return  employeeRepository.countEmployeeByIdEquals(Long.valueOf(id)) > 0;
     }
 
 }

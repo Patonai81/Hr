@@ -1,5 +1,6 @@
 package hu.webuni.hr.szabi.web;
 
+import hu.webuni.hr.szabi.exception.EmployeeColdNotFoundException;
 import hu.webuni.hr.szabi.exception.EmployeeCouldNotBeCreatedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class EmployeeRelatedExceptionHandler {
 
-    @ExceptionHandler(EmployeeCouldNotBeCreatedException.class)
+    @ExceptionHandler({EmployeeCouldNotBeCreatedException.class, EmployeeColdNotFoundException.class})
     public ResponseEntity<MyErrorObject> handleEmployeeCouldNotBeCreatedException(EmployeeCouldNotBeCreatedException e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MyErrorObject(e.getMessage(),222));
 

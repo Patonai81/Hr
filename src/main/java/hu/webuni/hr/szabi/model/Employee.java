@@ -1,13 +1,18 @@
 package hu.webuni.hr.szabi.model;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Entity
+@NamedQuery(name = "Employee.whatIs", query = "SELECT  e from Employee e where e.assignment like '%Wo%' ")
 public class Employee {
 
     /**
      * Internal identifier
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
     /**

@@ -24,7 +24,7 @@ public class CompanyService {
 
     @PostConstruct
     public void init() {
-         companies.put(1, new Company(1, "Name", "Address", employeeService.findAll()));
+       //  companies.put(1, new Company(1, "Name", "Address", employeeService.findAll()));
     }
 
 

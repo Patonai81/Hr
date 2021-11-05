@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Profile("default")
 public class DefaultEmployeeService extends AbstractEmployeeService {
@@ -16,5 +18,10 @@ public class DefaultEmployeeService extends AbstractEmployeeService {
     @Override
     public int getPayRaisePercentage(Employee employee) {
         return configObject.getNormal();
+    }
+
+    @Override
+    public List<Employee> findEmployeeByAssignment(String assignment) {
+        return employeeRepository.employeeFinderByAssignment(assignment);
     }
 }

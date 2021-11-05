@@ -1,6 +1,8 @@
 package hu.webuni.hr.szabi.service;
 
 import hu.webuni.hr.szabi.model.Employee;
+import org.springframework.data.repository.query.Param;
+import org.springframework.lang.NonNull;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -28,6 +30,13 @@ public interface EmployeeService {
     Employee replace(Integer id, Employee employee);
 
     Employee remove(Integer id);
+
+    List<Employee> findEmployeeByAssignment(String assignment);
+
+    List<Employee> findEmployeesByStartingLetters(String nameFraction);
+
+    List<Employee> findEmployeesBetweenStartDates(LocalDateTime startWorkStart, LocalDateTime startWorkEnd);
+
 
 
 }

@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController()
@@ -69,5 +70,23 @@ public class EmployeeRestController {
     public int getPayRaisePercentage(@RequestBody  EmployeeDto e){
         return employeeService.getPayRaisePercentage(employeeMapperecske.toEmployee(e));
     }
+
+    @GetMapping("/employeeAssignment")
+    public List<EmployeeDto> getEmployeeListByAssignment(@RequestParam String assignment) {
+        return employeeMapperecske.toEmployeeDtoList(employeeService.findEmployeeByAssignment(assignment));
+    }
+
+    @GetMapping("/employeeStartsWith")
+    public List<EmployeeDto> findEmployeesByStartingLetters(@RequestParam String name) {
+        return employeeMapperecske.toEmployeeDtoList(employeeService.findEmployeesByStartingLetters(name));
+    }
+
+    @GetMapping("/employeeBetweenDates")
+    public List<EmployeeDto> findEmployeesByStartingLetters(LocalDateTime from, LocalDateTime to) {
+        return employeeMapperecske.toEmployeeDtoList(employeeService. findEmployeesBetweenStartDates(from, to));
+    }
+
+
+
 
 }
