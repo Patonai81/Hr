@@ -2,7 +2,7 @@ package hu.webuni.hr.szabi.model;
 
 import javax.persistence.*;
 import java.util.List;
-import static hu.webuni.hr.szabi.validation.CompanyType.*;
+
 
 @Entity(name = "Company")
 @Table(name = "company")
@@ -31,10 +31,10 @@ public class Company {
     }
 
     public Company(Company input) {
-        this(input.name, input.address, null, input.companyType);
+        this(input.name, input.address, null, input.companyType, input.companyTypeFromDB);
     }
 
-    public Company(String name, String address, List<Employee> employeesList, CompanyType companyType) {
+    public Company(String name, String address, List<Employee> employeesList, CompanyType companyType,CompanyTypeFromDB companyTypeFromDB) {
         this.name = name;
         this.address = address;
         this.companyType= companyType;

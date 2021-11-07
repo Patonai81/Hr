@@ -7,22 +7,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.util.List;
 
 public class CompanyTypeValidator  implements ConstraintValidator<CompanyType, CompanyTypeFromDB> {
 
     @Autowired
     CompanyTypeRepository companyTypeRepository;
+    private List<CompanyTypeFromDB> availableCompanyTypes;
 
     @Override
     public void initialize(CompanyType constraintAnnotation) {
         ConstraintValidator.super.initialize(constraintAnnotation);
         companyTypeRepository = ServiceUtils.getCompanyTypeRepository();
+        availableCompanyTypes = (List<CompanyTypeFromDB>) companyTypeRepository.findAll();
     }
 
     @Override
     public boolean isValid(CompanyTypeFromDB companyTypeFromDB, ConstraintValidatorContext constraintValidatorContext) {
-        System.out.println("Take a look!!!");
-        System.out.println(companyTypeRepository.findAll());
-        return true;
+       return availableCompanyTypes.contains(companyTypeFromDB);
     }
 }
