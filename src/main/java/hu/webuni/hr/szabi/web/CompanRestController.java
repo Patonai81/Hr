@@ -5,6 +5,7 @@ import hu.webuni.hr.szabi.dto.EmployeeDto;
 import hu.webuni.hr.szabi.mapper.CompanyMapper;
 import hu.webuni.hr.szabi.mapper.EmployeeMapper;
 import hu.webuni.hr.szabi.model.Company;
+import hu.webuni.hr.szabi.repository.result.CompanyBYAVGSalaryResult;
 import hu.webuni.hr.szabi.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
@@ -49,7 +50,6 @@ public class CompanRestController {
 
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<CompanyDto> getCompany(@PathVariable Integer id) {
         return ResponseEntity.ok(companyMapper.toCompanyDto(companyService.findById(id)));
@@ -65,7 +65,10 @@ public class CompanRestController {
         return ResponseEntity.ok(companyMapper.toCompanyDtoList(companyService.findCompaniesWithEmployeeNUmberGtCondition(employeeNum)));
     }
 
-
+    @GetMapping("/getCompanyByAVGSalary")
+    public List <CompanyBYAVGSalaryResult> getCompanyByAVGSalary(){
+        return companyService.queryCompanyListAggregatedByAssignmentAndAvgSalaryOrderByAvgSalaryDesc();
+    }
 
     @PostMapping
     public ResponseEntity<CompanyDto> addNewCompany(@RequestBody CompanyDto companyDto) {

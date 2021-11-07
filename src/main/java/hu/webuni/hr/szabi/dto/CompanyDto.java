@@ -1,5 +1,7 @@
 package hu.webuni.hr.szabi.dto;
 
+import hu.webuni.hr.szabi.model.CompanyType;
+
 import java.util.List;
 
 public class CompanyDto {
@@ -8,6 +10,7 @@ public class CompanyDto {
     String name;
     String address;
     List<EmployeeDto> employeesList;
+    CompanyType companyType;
 
     public CompanyDto() {
     }
@@ -53,5 +56,13 @@ public class CompanyDto {
 
     public void setEmployeesList(List<EmployeeDto> employeesList) {
         this.employeesList = employeesList;
+    }
+
+    public CompanyType getCompanyType() {
+        return companyType;
+    }
+
+    public void setCompanyType(CompanyType companyType) {
+        this.companyType = companyType;
     }
 }

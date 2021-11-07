@@ -2,6 +2,7 @@ package hu.webuni.hr.szabi.model;
 
 import javax.persistence.*;
 import java.util.List;
+import static hu.webuni.hr.szabi.validation.CompanyType.*;
 
 @Entity(name = "Company")
 @Table(name = "company")
@@ -14,6 +15,13 @@ public class Company {
     String name;
     String address;
 
+    @Enumerated(EnumType.STRING)
+    CompanyType companyType;
+
+    @ManyToOne
+    @hu.webuni.hr.szabi.validation.CompanyType
+    CompanyTypeFromDB companyTypeFromDB;
+
     @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true,
             mappedBy = "companyToWorkFor")
@@ -23,12 +31,13 @@ public class Company {
     }
 
     public Company(Company input) {
-        this(input.name, input.address, null);
+        this(input.name, input.address, null, input.companyType);
     }
 
-    public Company(String name, String address, List<Employee> employeesList) {
+    public Company(String name, String address, List<Employee> employeesList, CompanyType companyType) {
         this.name = name;
         this.address = address;
+        this.companyType= companyType;
         this.employeesList = employeesList;
     }
 
@@ -74,5 +83,22 @@ public class Company {
         employee.setCompanyToWorkFor(null);
     }
 
+    public CompanyType getCompanyType() {
+        return companyType;
+    }
+
+    public void setCompanyType(CompanyType companyType) {
+        this.companyType = companyType;
+    }
+
+    @Override
+    public String toString() {
+        return "Company{" +
+                "companyId=" + companyId +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", employeesList=" + employeesList +
+                '}';
+    }
 }
 

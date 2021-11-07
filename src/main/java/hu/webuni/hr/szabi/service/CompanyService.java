@@ -4,8 +4,9 @@ import hu.webuni.hr.szabi.exception.CompanyNotFoundException;
 import hu.webuni.hr.szabi.model.Company;
 import hu.webuni.hr.szabi.model.Employee;
 import hu.webuni.hr.szabi.repository.CompanyRepository;
-import hu.webuni.hr.szabi.repository.CompanyRepository2;
+import hu.webuni.hr.szabi.repository.CompanyTypeRepository;
 import hu.webuni.hr.szabi.repository.EmployeeRepository;
+import hu.webuni.hr.szabi.repository.result.CompanyBYAVGSalaryResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class CompanyService {
     CompanyRepository companyRepository;
 
     @Autowired
-    CompanyRepository2 companyRepository2;
+    CompanyTypeRepository companyRepository2;
 
     @Autowired
     EmployeeRepository employeeRepository;
@@ -82,16 +83,38 @@ public class CompanyService {
         }
     }
 
-    public Company modify(Integer id, Company company) {
-        return null;
-    }
-
     public Company delete(Integer id) {
-        return null;
+        Company company = findById(id);
+        try {
+            companyRepository.delete(company);
+            return company;
+        } finally {
+            logger.debug("Company successfuly deleted" + company);
+        }
     }
 
-    public void replaceEmployees(Integer companyId, List<Employee> employeeList) {
+    @Transactional
+    public Company modify(Integer id, Company company) {
+        try {
+            Company companyToBeModified = findById(id);
+            companyToBeModified.setName(company.getName());
+            companyToBeModified.setAddress(company.getAddress());
 
+            return companyToBeModified;
+        } finally {
+            logger.debug("Company successfuly replaced" + company);
+        }
+    }
+
+    @Transactional
+    public void replaceEmployees(Integer companyId, List<Employee> employeeList) {
+        try {
+            Company companyToBeModified = findById(companyId);
+            companyToBeModified.setEmployeesList(employeeList);
+
+        } finally {
+            logger.debug("Company successfuly replaced" + companyId);
+        }
     }
 
     public List<Company> findCompaniesWithSalaryGtCondition(Integer salary) {
@@ -104,5 +127,8 @@ public class CompanyService {
         return companyRepository.queryCompanyListWhereEmployeeNumberGt(employeeNumber.longValue());
     }
 
+    public List <CompanyBYAVGSalaryResult> queryCompanyListAggregatedByAssignmentAndAvgSalaryOrderByAvgSalaryDesc(){
+            return companyRepository.queryCompanyListAggregatedByAssignmentAndAvgSalaryOrderByAvgSalaryDesc();
+    }
 
 }
