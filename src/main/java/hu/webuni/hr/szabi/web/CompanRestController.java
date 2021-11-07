@@ -32,16 +32,40 @@ public class CompanRestController {
     //  @RequestMapping(value = {"", "/{id}"}, method = RequestMethod.GET)
     @RequestMapping(value = {""}, method = RequestMethod.GET)
     public List<CompanyDto> getCompany(@RequestParam(name = "full", required = false) String full) {
+
+      //Megoldás 1
+        /*
         if (null == full || "false".equalsIgnoreCase(full)) {
             return createFilterCompanyList(companyService.findAll(), true);
         }
         return createFilterCompanyList(companyService.findAll(), false);
+
+*/
+        if (null == full || "false".equalsIgnoreCase(full)) {
+            return companyMapper.toCompanyDtoListWithoutEmployee(companyService.findAll());
+        } else {
+            return companyMapper.toCompanyDtoList(companyService.findAll());
+        }
+
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<CompanyDto> getCompany(@PathVariable Integer id) {
         return ResponseEntity.ok(companyMapper.toCompanyDto(companyService.findById(id)));
     }
+
+    @GetMapping("/{salary}/salaryGt")
+    public ResponseEntity<List<CompanyDto>> getCompanyOfSalaryGT(@PathVariable Integer salary) {
+        return ResponseEntity.ok(companyMapper.toCompanyDtoList(companyService.findCompaniesWithSalaryGtCondition(salary)));
+    }
+
+    @GetMapping("/{employeeNum}/employeeNumGt")
+    public ResponseEntity<List<CompanyDto>> getCompanyOfEmployeeNumGT(@PathVariable Integer employeeNum) {
+        return ResponseEntity.ok(companyMapper.toCompanyDtoList(companyService.findCompaniesWithEmployeeNUmberGtCondition(employeeNum)));
+    }
+
+
 
     @PostMapping
     public ResponseEntity<CompanyDto> addNewCompany(@RequestBody CompanyDto companyDto) {
@@ -60,7 +84,7 @@ public class CompanRestController {
 
     @PostMapping("/{companyId}/employeeRelated")
     public EmployeeDto addNewEmployeeToCompany(@PathVariable Integer companyId, @RequestBody EmployeeDto employeeDto) {
-        return employeeMapper.toEmployeeDtoList(companyService.addEmployee(companyId, employeeMapper.toEmployeeList(Arrays.asList(employeeDto)))).get(0);
+        return employeeMapper.toEmployeeDto(companyService.addEmployee(companyId, employeeMapper.toEmployee(employeeDto)));
     }
 
     @DeleteMapping("/{companyId}/employeeRelated/{employeeId}")
@@ -73,6 +97,10 @@ public class CompanRestController {
        companyService.replaceEmployees(companyId,employeeMapper.toEmployeeList(employeeDtoList));
     }
 
+
+
+
+        //Megoldás 1. a filterelésre
     private List<CompanyDto> createFilterCompanyList(List<Company> input, Boolean filterEmployee) {
         return companyService.findAll().stream().map((item) -> {
             CompanyDto internal = companyMapper.toCompanyDto(item);

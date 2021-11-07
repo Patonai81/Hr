@@ -1,33 +1,42 @@
 package hu.webuni.hr.szabi.model;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity(name = "Company")
+@Table(name = "company")
 public class Company {
 
-    Integer companyId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Long companyId;
+
     String name;
     String address;
+
+    @OneToMany(cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            mappedBy = "companyToWorkFor")
     List<Employee> employeesList;
 
     public Company() {
     }
 
     public Company(Company input) {
-        this (input.companyId,input.name,input.address,null);
+        this(input.name, input.address, null);
     }
 
-    public Company(Integer companyId, String name, String address, List<Employee> employeesList) {
-        this.companyId = companyId;
+    public Company(String name, String address, List<Employee> employeesList) {
         this.name = name;
         this.address = address;
         this.employeesList = employeesList;
     }
 
-    public Integer getCompanyId() {
+    public Long getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(Integer companyId) {
+    public void setCompanyId(Long companyId) {
         this.companyId = companyId;
     }
 
@@ -54,5 +63,16 @@ public class Company {
     public void setEmployeesList(List<Employee> employeesList) {
         this.employeesList = employeesList;
     }
+
+    public void addEmployee(Employee employee){
+        employeesList.add(employee);
+        employee.setCompanyToWorkFor(this);
+    }
+
+    public void removeEmployee (Employee employee){
+        employeesList.remove(employee);
+        employee.setCompanyToWorkFor(null);
+    }
+
 }
 

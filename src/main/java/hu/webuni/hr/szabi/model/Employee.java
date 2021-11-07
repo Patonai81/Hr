@@ -4,7 +4,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Entity
+@Entity(name = "Employee")
+@Table(name = "employee")
 @NamedQuery(name = "Employee.whatIs", query = "SELECT  e from Employee e where e.assignment like '%Wo%' ")
 public class Employee {
 
@@ -35,15 +36,18 @@ public class Employee {
      */
     public LocalDateTime startWork;
 
+    @ManyToOne(fetch= FetchType.LAZY)
+    Company companyToWorkFor;
+
     public Employee() {
     }
 
-    public Employee(Long id, String employeeName, String assignment, Integer salary, LocalDateTime startWork) {
-        this.id = id;
+    public Employee(String employeeName, String assignment, Integer salary, LocalDateTime startWork, Company company) {
         this.employeeName = employeeName;
         this.assignment = assignment;
         this.salary = salary;
         this.startWork = startWork;
+        this.companyToWorkFor=company;
     }
 
     public Long getId() {
@@ -109,4 +113,14 @@ public class Employee {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+
+    public Company getCompanyToWorkFor() {
+        return companyToWorkFor;
+    }
+
+    public void setCompanyToWorkFor(Company companyToWorkFor) {
+        this.companyToWorkFor = companyToWorkFor;
+    }
+
 }
