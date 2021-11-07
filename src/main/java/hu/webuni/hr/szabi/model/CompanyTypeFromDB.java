@@ -38,6 +38,13 @@ public class CompanyTypeFromDB {
     }
 
     @Override
+    public String toString() {
+        return "CompanyTypeFromDB{" +
+                "companyForm='" + companyForm + '\'' +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
 

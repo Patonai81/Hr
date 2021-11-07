@@ -1,5 +1,7 @@
 package hu.webuni.hr.szabi.model;
 
+import hu.webuni.hr.szabi.validation.CompanyTypeDB;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -18,8 +20,7 @@ public class Company {
     @Enumerated(EnumType.STRING)
     CompanyType companyType;
 
-    @ManyToOne
-    @hu.webuni.hr.szabi.validation.CompanyType
+    @ManyToOne(cascade = CascadeType.ALL)
     CompanyTypeFromDB companyTypeFromDB;
 
     @OneToMany(cascade = CascadeType.ALL,
@@ -34,11 +35,13 @@ public class Company {
         this(input.name, input.address, null, input.companyType, input.companyTypeFromDB);
     }
 
+    @CompanyTypeDB
     public Company(String name, String address, List<Employee> employeesList, CompanyType companyType,CompanyTypeFromDB companyTypeFromDB) {
         this.name = name;
         this.address = address;
         this.companyType= companyType;
         this.employeesList = employeesList;
+        this.companyTypeFromDB=companyTypeFromDB;
     }
 
     public Long getCompanyId() {
@@ -89,6 +92,14 @@ public class Company {
 
     public void setCompanyType(CompanyType companyType) {
         this.companyType = companyType;
+    }
+
+    public CompanyTypeFromDB getCompanyTypeFromDB() {
+        return companyTypeFromDB;
+    }
+
+    public void setCompanyTypeFromDB(CompanyTypeFromDB companyTypeFromDB) {
+        this.companyTypeFromDB = companyTypeFromDB;
     }
 
     @Override

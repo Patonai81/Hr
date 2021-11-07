@@ -1,6 +1,9 @@
 package hu.webuni.hr.szabi.dto;
 
 import hu.webuni.hr.szabi.model.CompanyType;
+import hu.webuni.hr.szabi.model.CompanyTypeFromDB;
+import hu.webuni.hr.szabi.validation.CompanyTypeDB;
+import org.springframework.lang.NonNull;
 
 import java.util.List;
 
@@ -11,6 +14,9 @@ public class CompanyDto {
     String address;
     List<EmployeeDto> employeesList;
     CompanyType companyType;
+
+    @CompanyTypeDB
+    CompanyTypeFromDB companyTypeFromDB;
 
     public CompanyDto() {
     }
@@ -64,5 +70,13 @@ public class CompanyDto {
 
     public void setCompanyType(CompanyType companyType) {
         this.companyType = companyType;
+    }
+
+    public CompanyTypeFromDB getCompanyTypeFromDB() {
+        return companyTypeFromDB;
+    }
+
+    public void setCompanyTypeFromDB(CompanyTypeFromDB companyTypeFromDB) {
+        this.companyTypeFromDB = companyTypeFromDB;
     }
 }

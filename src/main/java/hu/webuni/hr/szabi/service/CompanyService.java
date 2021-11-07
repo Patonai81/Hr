@@ -47,7 +47,6 @@ public class CompanyService {
 
     public Company findById(Integer id) {
         Company company = companyRepository.findById(id.longValue()).orElseThrow(() -> new CompanyNotFoundException("Could not find company with a given ID" + id));
-        ;
         logger.debug("findAll", company);
         return company;
     }
@@ -55,6 +54,7 @@ public class CompanyService {
 
     @Transactional
     public Company save(Company company) {
+        employeeRepository.saveAll(company.getEmployeesList());
         Company saved = companyRepository.save(company);
         return saved;
     }

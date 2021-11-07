@@ -12,6 +12,7 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -71,7 +72,7 @@ public class CompanRestController {
     }
 
     @PostMapping
-    public ResponseEntity<CompanyDto> addNewCompany(@RequestBody CompanyDto companyDto) {
+    public ResponseEntity<CompanyDto> addNewCompany(@RequestBody @Valid CompanyDto companyDto) {
         return ResponseEntity.ok(companyMapper.toCompanyDto(companyService.save(companyMapper.toCompany(companyDto))));
     }
 
