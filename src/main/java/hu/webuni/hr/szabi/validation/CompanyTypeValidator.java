@@ -29,7 +29,7 @@ public class CompanyTypeValidator  implements ConstraintValidator<CompanyTypeDB,
     @Override
     public boolean isValid(CompanyTypeFromDB companyTypeFromDB, ConstraintValidatorContext constraintValidatorContext) {
         if (!availableCompanyTypes.contains(companyTypeFromDB)){
-            throw new CompanyCouldNotBeManipulatedException("The given company type is not permitted!!"+companyTypeFromDB);
+           return false;
         }
     return true;
     }

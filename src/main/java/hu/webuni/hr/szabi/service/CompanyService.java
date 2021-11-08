@@ -1,7 +1,9 @@
 package hu.webuni.hr.szabi.service;
 
+import hu.webuni.hr.szabi.exception.CompanyCouldNotBeManipulatedException;
 import hu.webuni.hr.szabi.exception.CompanyNotFoundException;
 import hu.webuni.hr.szabi.model.Company;
+import hu.webuni.hr.szabi.model.CompanyTypeFromDB;
 import hu.webuni.hr.szabi.model.Employee;
 import hu.webuni.hr.szabi.repository.CompanyRepository;
 import hu.webuni.hr.szabi.repository.CompanyTypeRepository;
@@ -14,7 +16,13 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class CompanyService {
@@ -26,7 +34,7 @@ public class CompanyService {
     CompanyRepository companyRepository;
 
     @Autowired
-    CompanyTypeRepository companyRepository2;
+    CompanyTypeRepository companyTypeRepository;
 
     @Autowired
     EmployeeRepository employeeRepository;
@@ -54,6 +62,10 @@ public class CompanyService {
 
     @Transactional
     public Company save(Company company) {
+        checkCompanyValidByAnnotation(company);
+        CompanyTypeFromDB companyTypeFromDB = companyTypeRepository.findByCompanyFormEqualsIgnoreCase(company.getCompanyTypeFromDB().getCompanyForm());
+        company.setCompanyTypeFromDB(companyTypeFromDB);
+
         employeeRepository.saveAll(company.getEmployeesList());
         Company saved = companyRepository.save(company);
         return saved;
@@ -129,6 +141,22 @@ public class CompanyService {
 
     public List <CompanyBYAVGSalaryResult> queryCompanyListAggregatedByAssignmentAndAvgSalaryOrderByAvgSalaryDesc(){
             return companyRepository.queryCompanyListAggregatedByAssignmentAndAvgSalaryOrderByAvgSalaryDesc();
+    }
+
+    private void checkCompanyValidByAnnotation (Company company){
+        System.out.println("Validation has been started!!!");
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<Company>> violations = validator.validate(company);
+       if (!violations.isEmpty()){
+           StringBuilder propertyPathProblems = new StringBuilder();
+           violations.stream().map( entity -> entity.getPropertyPath()).forEach( item -> propertyPathProblems.append(item.toString()+","));
+
+           throw new CompanyCouldNotBeManipulatedException("Problem with the following attribute: "+propertyPathProblems);
+       }
+
+
+
     }
 
 }

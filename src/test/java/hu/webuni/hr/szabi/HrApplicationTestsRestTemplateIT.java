@@ -37,7 +37,7 @@ public class HrApplicationTestsRestTemplateIT {
         URI uri = new URI(baseUrl);
 
 
-        EmployeeDto employee = new EmployeeDto(19l, "Béla", "Worker2", 2000, LocalDateTime.of(2018, 4, 13, 8, 0, 0));
+        EmployeeDto employee = new EmployeeDto("Béla", "Worker2", 2000, LocalDateTime.of(2018, 4, 13, 8, 0, 0));
 
         HttpHeaders headers = new HttpHeaders();
         //headers.set("X-COM-PERSIST", "true");
@@ -56,7 +56,7 @@ public class HrApplicationTestsRestTemplateIT {
         URI uri = new URI(baseUrl);
 
 
-        EmployeeDto employee = new EmployeeDto(19l, "Béla", null, 2000, LocalDateTime.of(2018, 4, 13, 8, 0, 0));
+        EmployeeDto employee = new EmployeeDto("Béla", null, 2000, LocalDateTime.of(2018, 4, 13, 8, 0, 0));
 
         HttpHeaders headers = new HttpHeaders();
         //headers.set("X-COM-PERSIST", "true");
