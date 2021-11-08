@@ -20,7 +20,8 @@ public class Company {
     @Enumerated(EnumType.STRING)
     CompanyType companyType;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @CompanyTypeDB
     CompanyTypeFromDB companyTypeFromDB;
 
     @OneToMany(cascade = CascadeType.ALL,

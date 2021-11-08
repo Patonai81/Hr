@@ -1,10 +1,11 @@
 package hu.webuni.hr.szabi.repository;
 
 
-import hu.webuni.hr.szabi.model.CompanyTypeFromDB;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.repository.CrudRepository;
 
-public interface CompanyTypeRepository extends CrudRepository<CompanyTypeFromDB, Long>, JpaSpecificationExecutor<CompanyTypeFromDB> {
+import hu.webuni.hr.szabi.model.CompanyTypeFromDB;
+
+public interface CompanyTypeRepository extends JpaRepository<CompanyTypeFromDB, Long>, JpaSpecificationExecutor<CompanyTypeFromDB> {
 
 }
