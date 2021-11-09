@@ -63,8 +63,8 @@ public class CompanyService {
     @Transactional
     public Company save(Company company) {
         checkCompanyValidByAnnotation(company);
-        CompanyTypeFromDB companyTypeFromDB = companyTypeRepository.findByCompanyFormEqualsIgnoreCase(company.getCompanyTypeFromDB().getCompanyForm());
-        company.setCompanyTypeFromDB(companyTypeFromDB);
+//        CompanyTypeFromDB companyTypeFromDB = companyTypeRepository.findByCompanyFormEqualsIgnoreCase(company.getCompanyTypeFromDB().getCompanyForm());
+//        company.setCompanyTypeFromDB(companyTypeFromDB);
 
         employeeRepository.saveAll(company.getEmployeesList());
         Company saved = companyRepository.save(company);

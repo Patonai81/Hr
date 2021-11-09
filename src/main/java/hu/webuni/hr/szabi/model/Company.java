@@ -34,7 +34,7 @@ public class Company {
     @NonNull
     CompanyType companyType;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @CompanyTypeDB
     @NonNull
     CompanyTypeFromDB companyTypeFromDB;
