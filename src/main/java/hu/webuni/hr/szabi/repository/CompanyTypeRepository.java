@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface CompanyTypeRepository extends JpaRepository<CompanyTypeFromDB, Long>, JpaSpecificationExecutor<CompanyTypeFromDB> {
     @NonNull
-    CompanyTypeFromDB findByCompanyFormEqualsIgnoreCase(String companyForm);
+    Optional<CompanyTypeFromDB> findByCompanyFormEqualsIgnoreCase(String companyForm);
 
 
 

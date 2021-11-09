@@ -12,17 +12,13 @@ import hu.webuni.hr.szabi.repository.result.CompanyBYAVGSalaryResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class CompanyService {
@@ -46,10 +42,17 @@ public class CompanyService {
     public void init() {
     }
 
+
     public List<Company> findAll() {
-        List<Company> result = companyRepository.findAll();
-        logger.debug("findAll", result);
-        return result;
+        return this.findAll(null);
+    }
+
+    public List<Company> findAll(Pageable pageable) {
+        if (pageable != null) {
+            return companyRepository.findAll(pageable).getContent();
+        } else {
+            return companyRepository.findAll();
+        }
     }
 
 
@@ -63,9 +66,6 @@ public class CompanyService {
     @Transactional
     public Company save(Company company) {
         checkCompanyValidByAnnotation(company);
-        CompanyTypeFromDB companyTypeFromDB = companyTypeRepository.findByCompanyFormEqualsIgnoreCase(company.getCompanyTypeFromDB().getCompanyForm());
-        company.setCompanyTypeFromDB(companyTypeFromDB);
-        employeeRepository.saveAll(company.getEmployeesList());
         Company saved = companyRepository.save(company);
         return saved;
     }
@@ -138,23 +138,22 @@ public class CompanyService {
         return companyRepository.queryCompanyListWhereEmployeeNumberGt(employeeNumber.longValue());
     }
 
-    public List <CompanyBYAVGSalaryResult> queryCompanyListAggregatedByAssignmentAndAvgSalaryOrderByAvgSalaryDesc(){
-            return companyRepository.queryCompanyListAggregatedByAssignmentAndAvgSalaryOrderByAvgSalaryDesc();
+    public List<CompanyBYAVGSalaryResult> queryCompanyListAggregatedByAssignmentAndAvgSalaryOrderByAvgSalaryDesc() {
+        return companyRepository.queryCompanyListAggregatedByAssignmentAndAvgSalaryOrderByAvgSalaryDesc();
     }
 
-    private void checkCompanyValidByAnnotation (Company company){
-        System.out.println("Validation has been started!!!");
+    private void checkCompanyValidByAnnotation(Company company) {
+       /*
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<Company>> violations = validator.validate(company);
-       if (!violations.isEmpty()){
-           StringBuilder propertyPathProblems = new StringBuilder();
-           violations.stream().map( entity -> entity.getPropertyPath()).forEach( item -> propertyPathProblems.append(item.toString()+","));
-
-           throw new CompanyCouldNotBeManipulatedException("Problem with the following attribute: "+propertyPathProblems);
-       }
-
-
+      */
+        Optional<CompanyTypeFromDB> companyTypeFromDB = companyTypeRepository.findByCompanyFormEqualsIgnoreCase(company.getCompanyTypeFromDB().getCompanyForm());
+        if (companyTypeFromDB.isPresent()) {
+            company.setCompanyTypeFromDB(companyTypeFromDB.get());
+        } else {
+            throw new CompanyCouldNotBeManipulatedException("Cannot create company with give company form: " + company.getCompanyTypeFromDB().getCompanyForm());
+        }
 
     }
 

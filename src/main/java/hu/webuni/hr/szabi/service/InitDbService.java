@@ -29,21 +29,24 @@ public class InitDbService {
     @Autowired
     CompanyTypeRepository companyTypeRepository;
 
+    @Autowired
+    CompanyService companyService;
+
     @Transactional
     public void clearDb() {
         companyRepository.deleteAll();
-
+        companyTypeRepository.deleteAll();
     }
 
 
     public void insertTestData() {
 
-        companyTypeRepository.deleteAll();
         CompanyTypeFromDB bt = companyTypeRepository.save(new CompanyTypeFromDB("BT"));
         CompanyTypeFromDB cd = companyTypeRepository.save(new CompanyTypeFromDB("CD"));
         CompanyTypeFromDB ed = companyTypeRepository.save(new CompanyTypeFromDB("ED"));
         CompanyTypeFromDB fd = companyTypeRepository.save(new CompanyTypeFromDB("FD"));
         CompanyTypeFromDB kkt = companyTypeRepository.save(new CompanyTypeFromDB("KKT"));
+
 
         List<Employee> employeeList = new ArrayList<Employee>(6);
 
@@ -57,7 +60,7 @@ public class InitDbService {
         employeeList.add(new Employee("Teszt Tamás", "Senior", 700000, LocalDateTime.of(2015, Month.JANUARY, 29, 19, 30, 40), company1));
         employeeList.add(new Employee("Teszt Aladár", "Vice President", 1350000, LocalDateTime.of(2000, Month.APRIL, 29, 19, 30, 40), company1));
 
-        companyRepository.save(company1);
+        companyService.save(company1);
 
         Company company2 = new Company("Company2", "Company2Address", employeeList, CompanyType.ZRT,fd);
 
@@ -68,7 +71,7 @@ public class InitDbService {
         employeeList.add(new Employee("Teszt Tihamér", "Senior", 1000000, LocalDateTime.of(2015, Month.JANUARY, 29, 19, 30, 40), company2));
 
 
-        companyRepository.save(company2);
+        companyService.save(company2);
 
 
         Company company3 = new Company("Company3", "Company3Address", employeeList, CompanyType.ZRT,kkt);
@@ -77,7 +80,7 @@ public class InitDbService {
         employeeList.add(new Employee("Teszt Tihamér", "Expert", 250000, LocalDateTime.of(2013, Month.FEBRUARY, 26, 19, 30, 40), company3));
         employeeList.add(new Employee("Teszt Bübül", "Senior", 700000, LocalDateTime.of(2011, Month.JANUARY, 29, 19, 30, 40), company3));
 
-        companyRepository.save(company3);
+        companyService.save(company3);
 
 
     }

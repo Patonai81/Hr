@@ -9,6 +9,9 @@ import hu.webuni.hr.szabi.repository.result.CompanyBYAVGSalaryResult;
 import hu.webuni.hr.szabi.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +36,7 @@ public class CompanRestController {
     @RequestMapping(value = {""}, method = RequestMethod.GET)
     public List<CompanyDto> getCompany(@RequestParam(name = "full", required = false) String full) {
 
-      //Megoldás 1
+        //Megoldás 1
         /*
         if (null == full || "false".equalsIgnoreCase(full)) {
             return createFilterCompanyList(companyService.findAll(), true);
@@ -47,6 +50,23 @@ public class CompanRestController {
             return companyMapper.toCompanyDtoList(companyService.findAll());
         }
 
+    }
+
+    @RequestMapping(value = {"/pageTest"}, method = RequestMethod.GET)
+    public List<CompanyDto> getCompany(@RequestParam(required = false) String companyNameFragment,
+                                       @RequestParam(defaultValue = "0") int page,
+                                       @RequestParam(defaultValue = "3") int size) {
+
+        List<Company> companies;
+        Pageable paging = PageRequest.of(page, size, Sort.by("name"));
+
+        if (companyNameFragment == null)
+            companies = companyService.findAll(paging);
+        else
+            //TODO implement
+            return null;
+
+        return companyMapper.toCompanyDtoList(companies);
     }
 
     @GetMapping("/{id}")
@@ -65,12 +85,12 @@ public class CompanRestController {
     }
 
     @GetMapping("/getCompanyByAVGSalary")
-    public List <CompanyBYAVGSalaryResult> getCompanyByAVGSalary(){
+    public List<CompanyBYAVGSalaryResult> getCompanyByAVGSalary() {
         return companyService.queryCompanyListAggregatedByAssignmentAndAvgSalaryOrderByAvgSalaryDesc();
     }
 
     @PostMapping
-    public ResponseEntity<CompanyDto> addNewCompany(@RequestBody  CompanyDto companyDto) {
+    public ResponseEntity<CompanyDto> addNewCompany(@RequestBody CompanyDto companyDto) {
         return ResponseEntity.ok(companyMapper.toCompanyDto(companyService.save(companyMapper.toCompany(companyDto))));
     }
 
@@ -96,13 +116,11 @@ public class CompanRestController {
 
     @PutMapping("/{companyId}/employeeRelated")
     public void replaceEmployees(@PathVariable Integer companyId, @RequestBody List<EmployeeDto> employeeDtoList) {
-       companyService.replaceEmployees(companyId,employeeMapper.toEmployeeList(employeeDtoList));
+        companyService.replaceEmployees(companyId, employeeMapper.toEmployeeList(employeeDtoList));
     }
 
 
-
-
-        //Megoldás 1. a filterelésre
+    //Megoldás 1. a filterelésre
     private List<CompanyDto> createFilterCompanyList(List<Company> input, Boolean filterEmployee) {
         return companyService.findAll().stream().map((item) -> {
             CompanyDto internal = companyMapper.toCompanyDto(item);

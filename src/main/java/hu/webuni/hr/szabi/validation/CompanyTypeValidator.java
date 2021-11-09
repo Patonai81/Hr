@@ -1,17 +1,13 @@
 package hu.webuni.hr.szabi.validation;
 
-import java.util.List;
-
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import hu.webuni.hr.szabi.exception.CompanyCouldNotBeManipulatedException;
 import hu.webuni.hr.szabi.model.CompanyTypeFromDB;
 import hu.webuni.hr.szabi.repository.CompanyTypeRepository;
 import hu.webuni.hr.szabi.service.util.ServiceUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+import java.util.List;
 
 public class CompanyTypeValidator  implements ConstraintValidator<CompanyTypeDB, CompanyTypeFromDB> {
 
@@ -28,6 +24,8 @@ public class CompanyTypeValidator  implements ConstraintValidator<CompanyTypeDB,
 
     @Override
     public boolean isValid(CompanyTypeFromDB companyTypeFromDB, ConstraintValidatorContext constraintValidatorContext) {
+        System.out.println("CompanyConstaintValidator is running...");
+        System.out.println("Incoming parameter is :"+companyTypeFromDB);
         if (!availableCompanyTypes.contains(companyTypeFromDB)){
            return false;
         }
