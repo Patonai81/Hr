@@ -51,5 +51,10 @@ public class Employee {
     @EqualsAndHashCode.Exclude
     Company companyToWorkFor;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NonNull
+    @EqualsAndHashCode.Exclude
+    Position position;
+
 
 }
