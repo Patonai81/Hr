@@ -2,12 +2,15 @@ package hu.webuni.hr.szabi.service;
 
 import hu.webuni.hr.szabi.exception.CompanyCouldNotBeManipulatedException;
 import hu.webuni.hr.szabi.exception.CompanyNotFoundException;
+import hu.webuni.hr.szabi.exception.EmployeeCouldNotBeCreatedException;
 import hu.webuni.hr.szabi.model.Company;
 import hu.webuni.hr.szabi.model.CompanyTypeFromDB;
 import hu.webuni.hr.szabi.model.Employee;
+import hu.webuni.hr.szabi.model.Position;
 import hu.webuni.hr.szabi.repository.CompanyRepository;
 import hu.webuni.hr.szabi.repository.CompanyTypeRepository;
 import hu.webuni.hr.szabi.repository.EmployeeRepository;
+import hu.webuni.hr.szabi.repository.PositionRepository;
 import hu.webuni.hr.szabi.repository.result.CompanyBYAVGSalaryResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +26,7 @@ import java.util.Optional;
 @Service
 public class CompanyService {
 
+    private final String segédmunkás = "Segédmunkás";
     @Autowired
     EmployeeService employeeService;
 
@@ -34,6 +38,9 @@ public class CompanyService {
 
     @Autowired
     EmployeeRepository employeeRepository;
+
+    @Autowired
+    PositionRepository positionRepository;
 
     Logger logger = LoggerFactory.getLogger(CompanyService.class);
 
@@ -71,15 +78,23 @@ public class CompanyService {
     }
 
     @Transactional
-    public Employee addEmployee(Integer companyId, Employee employee) {
+    public Employee addEmployee(Integer companyId, Employee employee, String position) {
         try {
-            findById(companyId).addEmployee(employee);
-            //Ha transactional akkor nem kötelező
-            // employeeRepository.save(employee);
-            return employee;
+            Optional<Position> positionFromRepo = positionRepository.findByPositionNameIgnoreCase(position);
+            if (!positionFromRepo.isPresent()) {
+                throw new CompanyCouldNotBeManipulatedException("Givan positiomn is not found: " + position);
+            }
+            //Megnézzük, h létezik e már,ha igen akkor nem adjuk megint hozzá
+            if (employeeRepository.findEmployeebyName(employee.getEmployeeName()).isPresent()){
+                logger.debug("Employee already exists: "+employee.getEmployeeName());
+                throw new EmployeeCouldNotBeCreatedException("Employee is already exists with name: "+employee.getEmployeeName());
+            }
+
+            findById(companyId).addEmployee(employee, positionFromRepo.get());
         } finally {
             logger.debug("Employee " + employee + " successfully added to company id: " + companyId);
         }
+        return employee;
     }
 
     public Employee removeEmployee(Integer companyId, Integer employeeId) {

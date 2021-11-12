@@ -29,7 +29,7 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     group by (c.name), (e.assignment)
     order by avg(e.salary) desc;
      */
-    @Query("select new hu.webuni.hr.szabi.repository.result.CompanyBYAVGSalaryResult( c.name,employeesList.assignment,avg(employeesList.salary)) from Company c left join c.employeesList employeesList group by c.name,employeesList.assignment order by avg (employeesList.salary) desc ")
+    @Query("select new hu.webuni.hr.szabi.repository.result.CompanyBYAVGSalaryResult( c.name,employeesList.position.positionName,avg(employeesList.salary)) from Company c left join c.employeesList employeesList group by c.name,employeesList.position.positionName order by avg (employeesList.salary) desc ")
     List<CompanyBYAVGSalaryResult> queryCompanyListAggregatedByAssignmentAndAvgSalaryOrderByAvgSalaryDesc();
 
 

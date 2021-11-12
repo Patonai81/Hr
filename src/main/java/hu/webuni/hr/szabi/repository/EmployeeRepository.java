@@ -8,20 +8,25 @@ import org.springframework.lang.NonNull;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface EmployeeRepository extends JpaRepository<Employee,Long> {
     Long countEmployeeByIdEquals(Long id);
     List<Employee> whatIs();
 
-    @Query("select e from Employee e where upper(e.assignment) = upper(?1) order by e.employeeName")
-    List<Employee> employeeFinderByAssignment(String assignment);
+    @Query("select e from Employee e where upper(e.position.positionName) = upper(?1) order by e.employeeName")
+    List<Employee> employeeFinderByPosition(String position);
 
-    List<Employee> findByAssignmentEqualsIgnoreCaseOrderByEmployeeNameAsc(@NonNull String assignment);
+    List<Employee> findByPosition_PositionNameIgnoreCase(String positionName);
 
     List<Employee> findByEmployeeNameStartsWithIgnoreCaseOrderByEmployeeNameDesc(@NonNull String employeeName);
 
     @Query("select e from Employee e where e.startWork between :startWorkStart and :startWorkEnd")
     List<Employee> findEmployeesBetweenStartDates(@Param("startWorkStart") @NonNull LocalDateTime startWorkStart, @Param("startWorkEnd") @NonNull LocalDateTime startWorkEnd);
+
+    @Query("select e from Employee e where e.employeeName = ?1")
+    @NonNull
+    Optional<Employee> findEmployeebyName(String employeeName);
 
 
 

@@ -22,6 +22,6 @@ public class DefaultEmployeeService extends AbstractEmployeeService {
 
     @Override
     public List<Employee> findEmployeeByAssignment(String assignment) {
-        return employeeRepository.employeeFinderByAssignment(assignment);
+        return employeeRepository.employeeFinderByPosition(assignment);
     }
 }

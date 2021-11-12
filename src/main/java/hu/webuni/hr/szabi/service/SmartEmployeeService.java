@@ -22,6 +22,6 @@ public class SmartEmployeeService extends AbstractEmployeeService {
 
     @Override
     public List<Employee> findEmployeeByAssignment(String assignment) {
-       return employeeRepository.findByAssignmentEqualsIgnoreCaseOrderByEmployeeNameAsc(assignment);
+       return employeeRepository.findByPosition_PositionNameIgnoreCase(assignment);
     }
 }

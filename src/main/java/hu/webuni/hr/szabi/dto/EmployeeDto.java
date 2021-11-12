@@ -27,12 +27,6 @@ public class EmployeeDto {
     @NonNull
     String employeeName;
 
-    /**
-     * Actual assignment of employee
-     */
-    @NotEmpty
-    @NonNull
-    String assignment;
 
     /**
      * Current salarí of employee
@@ -52,7 +46,6 @@ public class EmployeeDto {
 
     public EmployeeDto(EmployeeDto newEmp){
         this.employeeName = newEmp.employeeName;
-        this.assignment = newEmp.assignment;
         this.salary = newEmp.salary;
         this.startWork = newEmp.startWork;
     }

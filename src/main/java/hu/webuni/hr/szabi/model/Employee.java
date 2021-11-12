@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Entity(name = "Employee")
 @Table(name = "employee")
-@NamedQuery(name = "Employee.whatIs", query = "SELECT  e from Employee e where e.assignment like '%Wo%' ")
+@NamedQuery(name = "Employee.whatIs", query = "SELECT  e from Employee e where e.position.positionName like '%Wo%' ")
 @Data
 @RequiredArgsConstructor
 @NoArgsConstructor
@@ -29,12 +29,6 @@ public class Employee {
     String employeeName;
 
     /**
-     * Actual assignment of employee
-     */
-    @NonNull
-    String assignment;
-
-    /**
      * Current salarí of employee
      */
     @NonNull
@@ -51,10 +45,17 @@ public class Employee {
     @EqualsAndHashCode.Exclude
     Company companyToWorkFor;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @NonNull
     @EqualsAndHashCode.Exclude
     Position position;
 
-
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "employeeName='" + employeeName + '\'' +
+                ", salary=" + salary +
+                ", startWork=" + startWork +
+                '}';
+    }
 }

@@ -22,7 +22,7 @@ public class HrApplicationTestsWebClientIT {
     @Test
     public void testReplaceEmployeePositive()  {
 
-        EmployeeDto employee = new EmployeeDto("Béla", "Alkesz", 2000, LocalDateTime.of(2018, 4, 13, 8, 0, 0));
+        EmployeeDto employee = new EmployeeDto("Béla", 2000, LocalDateTime.of(2018, 4, 13, 8, 0, 0));
 
         webClient.put()
                 .uri("/api/employees/" + employee.getId())

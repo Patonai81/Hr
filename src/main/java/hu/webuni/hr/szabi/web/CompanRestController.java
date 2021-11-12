@@ -5,6 +5,8 @@ import hu.webuni.hr.szabi.dto.EmployeeDto;
 import hu.webuni.hr.szabi.mapper.CompanyMapper;
 import hu.webuni.hr.szabi.mapper.EmployeeMapper;
 import hu.webuni.hr.szabi.model.Company;
+import hu.webuni.hr.szabi.model.EducationType;
+import hu.webuni.hr.szabi.model.Position;
 import hu.webuni.hr.szabi.repository.result.CompanyBYAVGSalaryResult;
 import hu.webuni.hr.szabi.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController()
@@ -105,8 +108,8 @@ public class CompanRestController {
     }
 
     @PostMapping("/{companyId}/employeeRelated")
-    public EmployeeDto addNewEmployeeToCompany(@PathVariable Integer companyId, @RequestBody EmployeeDto employeeDto) {
-        return employeeMapper.toEmployeeDto(companyService.addEmployee(companyId, employeeMapper.toEmployee(employeeDto)));
+    public EmployeeDto addNewEmployeeToCompany(@PathVariable Integer companyId, @RequestBody EmployeeDto employeeDto, @RequestParam(defaultValue = "segédmunkás") String position ) {
+        return employeeMapper.toEmployeeDto(companyService.addEmployee(companyId, employeeMapper.toEmployee(employeeDto),position));
     }
 
     @DeleteMapping("/{companyId}/employeeRelated/{employeeId}")
