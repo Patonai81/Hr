@@ -2,10 +2,13 @@ package hu.webuni.hr.szabi.repository;
 
 import hu.webuni.hr.szabi.model.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.lang.NonNull;
 
+import javax.persistence.NamedQuery;
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +31,10 @@ public interface EmployeeRepository extends JpaRepository<Employee,Long> {
     @NonNull
     Optional<Employee> findEmployeebyName(String employeeName);
 
-
+    @Transactional
+    @Modifying
+    @Query("UPDATE Employee e SET e.salary=:salaryMin WHERE e.id IN (SELECT e2.id from Employee e2" +
+            " where e2.position.positionName = :positionName AND e2.salary < :salaryMin) ")
+    void updateEmployeeSalary(@Param("positionName") String positionName,@Param("salaryMin") Integer salaryMin);
 
 }

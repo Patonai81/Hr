@@ -65,8 +65,8 @@ public class InitDbService {
         employeeList.add(new Employee("Teszt Junior1", 150000, LocalDateTime.of(2020, Month.JULY, 29, 19, 30, 40), company1,position1));
         employeeList.add(new Employee("Teszt Junior2",  200000, LocalDateTime.of(2020, Month.JULY, 29, 19, 30, 40), company1,position3));
 
-        employeeList.add(new Employee("Teszt Béla",  250000, LocalDateTime.of(2018, Month.JULY, 29, 19, 30, 40), company1,position2));
-        employeeList.add(new Employee("Teszt Tamás",  700000, LocalDateTime.of(2015, Month.JANUARY, 29, 19, 30, 40), company1,position4));
+        employeeList.add(new Employee("Teszt Béla",  250000, LocalDateTime.of(2018, Month.JULY, 29, 19, 30, 40), company1,position1));
+        employeeList.add(new Employee("Teszt Tamás",  700000, LocalDateTime.of(2015, Month.JANUARY, 29, 19, 30, 40), company1,position1));
         employeeList.add(new Employee("Teszt Aladár",  1350000, LocalDateTime.of(2000, Month.APRIL, 29, 19, 30, 40), company1,position4));
 
         companyService.save(company1);

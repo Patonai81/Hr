@@ -86,6 +86,11 @@ public class EmployeeRestController {
         return employeeMapperecske.toEmployeeDtoList(employeeService. findEmployeesBetweenStartDates(from, to));
     }
 
+    @PostMapping("/raiseSalaryForPosition")
+    public void raiseSalary(@RequestParam("positionName") String positionName, @RequestParam("salaryMin") Integer salaryMin){
+        employeeService.updateEmployeeSalary(positionName,salaryMin);
+    }
+
 
 
 

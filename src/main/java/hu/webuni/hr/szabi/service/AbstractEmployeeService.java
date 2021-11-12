@@ -4,6 +4,7 @@ import hu.webuni.hr.szabi.exception.EmployeeColdNotFoundException;
 import hu.webuni.hr.szabi.exception.EmployeeCouldNotBeCreatedException;
 import hu.webuni.hr.szabi.model.Employee;
 import hu.webuni.hr.szabi.repository.EmployeeRepository;
+import hu.webuni.hr.szabi.repository.PositionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public abstract class AbstractEmployeeService implements EmployeeService {
 
     @Autowired
     EmployeeRepository employeeRepository;
+
+    @Autowired
+    PositionRepository positionRepository;
 
     Logger logger = LoggerFactory.getLogger(AbstractEmployeeService.class);
 
@@ -96,6 +100,17 @@ public abstract class AbstractEmployeeService implements EmployeeService {
     @Override
     public List<Employee> findEmployeesBetweenStartDates(LocalDateTime startWorkStart, LocalDateTime startWorkEnd) {
         return employeeRepository.findEmployeesBetweenStartDates(startWorkStart,startWorkEnd);
+    }
+
+    @Override
+    public void updateEmployeeSalary(String positionName, Integer minSalary){
+        if(positionRepository.findByPositionNameIgnoreCase(positionName).isPresent()){
+            logger.debug("Ennyi update kell, hogy történjen: "+employeeRepository.employeeFinderByPosition(positionName).size());
+            employeeRepository.updateEmployeeSalary(positionName,minSalary);
+        }else {
+            throw new EmployeeCouldNotBeCreatedException("Given position does not exists");
+        }
+        logger.debug("Employees succesfully updated");
     }
 
     private boolean checkExist(Integer id) {

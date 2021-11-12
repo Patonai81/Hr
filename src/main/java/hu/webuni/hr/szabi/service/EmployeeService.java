@@ -38,5 +38,5 @@ public interface EmployeeService {
     List<Employee> findEmployeesBetweenStartDates(LocalDateTime startWorkStart, LocalDateTime startWorkEnd);
 
 
-
+    void updateEmployeeSalary(String positionName, Integer minSalary);
 }
