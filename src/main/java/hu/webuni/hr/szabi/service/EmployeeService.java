@@ -7,6 +7,7 @@ import org.springframework.lang.NonNull;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 
 public interface EmployeeService {
 
@@ -38,5 +39,5 @@ public interface EmployeeService {
     List<Employee> findEmployeesBetweenStartDates(LocalDateTime startWorkStart, LocalDateTime startWorkEnd);
 
 
-    void updateEmployeeSalary(String positionName, Integer minSalary);
+    void updateEmployeeSalary(String positionName, Integer minSalary, Optional<Integer> companyId);
 }

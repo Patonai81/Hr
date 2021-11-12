@@ -37,4 +37,11 @@ public interface EmployeeRepository extends JpaRepository<Employee,Long> {
             " where e2.position.positionName = :positionName AND e2.salary < :salaryMin) ")
     void updateEmployeeSalary(@Param("positionName") String positionName,@Param("salaryMin") Integer salaryMin);
 
+    @Transactional
+    @Modifying
+    @Query("UPDATE Employee e SET e.salary=:salaryMin WHERE e.id IN (SELECT e2.id from Employee e2" +
+            " where e2.position.positionName = :positionName AND e2.salary < :salaryMin AND e2.companyToWorkFor.companyId = :companyId) ")
+    void updateEmployeeSalaryByCompanyId(@Param("positionName") String positionName,@Param("salaryMin") Integer salaryMin, @Param("companyId") Long companyId);
+
+
 }

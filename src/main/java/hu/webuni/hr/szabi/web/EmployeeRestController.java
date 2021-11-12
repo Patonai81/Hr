@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController()
 @Component("employeeRest")
@@ -86,9 +87,9 @@ public class EmployeeRestController {
         return employeeMapperecske.toEmployeeDtoList(employeeService. findEmployeesBetweenStartDates(from, to));
     }
 
-    @PostMapping("/raiseSalaryForPosition")
-    public void raiseSalary(@RequestParam("positionName") String positionName, @RequestParam("salaryMin") Integer salaryMin){
-        employeeService.updateEmployeeSalary(positionName,salaryMin);
+    @PostMapping("/raiseSalaryForPosition/{companyId}")
+    public void raiseSalary(@RequestParam("positionName") String positionName, @RequestParam("salaryMin") Integer salaryMin, @PathVariable(required = false) Optional<Integer> companyId){
+        employeeService.updateEmployeeSalary(positionName,salaryMin,companyId);
     }
 
 
