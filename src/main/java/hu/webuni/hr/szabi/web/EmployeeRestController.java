@@ -33,7 +33,10 @@ public class EmployeeRestController {
 
     @GetMapping
     @CrossOrigin(origins = "http://localhost:63343")
-    public List<EmployeeDto> getEmployeeList() {
+    public List<EmployeeDto> getEmployeeList(@RequestParam(required = false) Optional<Integer> salaryMin) {
+        if (salaryMin.isPresent()) {
+            return employeeMapperecske.toEmployeeDtoList(employeeService.findBySalaryGt(salaryMin.get()));
+        }
         return employeeMapperecske.toEmployeeDtoList(employeeService.findAll());
     }
 
@@ -48,8 +51,8 @@ public class EmployeeRestController {
     public ResponseEntity<EmployeeDto> addNewEmployee(@RequestBody EmployeeDto employeeDto, BindingResult result) {
 
         //Oldschool validation
-        employeeDtoValidator.validate(employeeDto,result);
-        if (result.hasErrors()){
+        employeeDtoValidator.validate(employeeDto, result);
+        if (result.hasErrors()) {
             throw new EmployeeCouldNotBeCreatedException(result.toString());
         }
 
@@ -57,7 +60,7 @@ public class EmployeeRestController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EmployeeDto> modifyEmployee(@PathVariable Integer id,@RequestBody @Valid EmployeeDto employeeDto) {
+    public ResponseEntity<EmployeeDto> modifyEmployee(@PathVariable Integer id, @RequestBody @Valid EmployeeDto employeeDto) {
         System.out.println("Modify employee called");
         return ResponseEntity.ok(employeeMapperecske.toEmployeeDto(employeeService.replace(id, employeeMapperecske.toEmployee(employeeDto))));
     }
@@ -68,7 +71,7 @@ public class EmployeeRestController {
     }
 
     @PostMapping("/raiseSalary")
-    public int getPayRaisePercentage(@RequestBody  EmployeeDto e){
+    public int getPayRaisePercentage(@RequestBody EmployeeDto e) {
         return employeeService.getPayRaisePercentage(employeeMapperecske.toEmployee(e));
     }
 
@@ -84,15 +87,13 @@ public class EmployeeRestController {
 
     @GetMapping("/employeeBetweenDates")
     public List<EmployeeDto> findEmployeesByStartingLetters(LocalDateTime from, LocalDateTime to) {
-        return employeeMapperecske.toEmployeeDtoList(employeeService. findEmployeesBetweenStartDates(from, to));
+        return employeeMapperecske.toEmployeeDtoList(employeeService.findEmployeesBetweenStartDates(from, to));
     }
 
     @PostMapping("/raiseSalaryForPosition/{companyId}")
-    public void raiseSalary(@RequestParam("positionName") String positionName, @RequestParam("salaryMin") Integer salaryMin, @PathVariable(required = false) Optional<Integer> companyId){
-        employeeService.updateEmployeeSalary(positionName,salaryMin,companyId);
+    public void raiseSalary(@RequestParam("positionName") String positionName, @RequestParam("salaryMin") Integer salaryMin, @PathVariable(required = false) Optional<Integer> companyId) {
+        employeeService.updateEmployeeSalary(positionName, salaryMin, companyId);
     }
-
-
 
 
 }

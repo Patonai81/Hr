@@ -52,6 +52,12 @@ public abstract class AbstractEmployeeService implements EmployeeService {
     }
 
     @Override
+    public List <Employee> findBySalaryGt(Integer salary){
+        return employeeRepository.findEmployeeSalaryGreaterThan(salary);
+    }
+
+
+    @Override
     @Transactional
     public Employee save(Employee employee) {
         if (checkExist(employee.getId().intValue())) {

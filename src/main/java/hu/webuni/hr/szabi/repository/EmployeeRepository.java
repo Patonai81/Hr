@@ -17,6 +17,9 @@ public interface EmployeeRepository extends JpaRepository<Employee,Long> {
     Long countEmployeeByIdEquals(Long id);
     List<Employee> whatIs();
 
+    @Query("select e from Employee e where e.salary > :salary")
+    List<Employee> findEmployeeSalaryGreaterThan(@Param("salary") Integer salary);
+
     @Query("select e from Employee e where upper(e.position.positionName) = upper(?1) order by e.employeeName")
     List<Employee> employeeFinderByPosition(String position);
 
