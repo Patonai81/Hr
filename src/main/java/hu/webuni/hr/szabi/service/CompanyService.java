@@ -15,6 +15,7 @@ import hu.webuni.hr.szabi.repository.result.CompanyBYAVGSalaryResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -50,15 +51,19 @@ public class CompanyService {
     }
 
 
-    public List<Company> findAll() {
-        return this.findAll(null);
+    public List<Company> findAll(boolean isContent) {
+        return this.findAll(null,isContent);
     }
 
-    public List<Company> findAll(Pageable pageable) {
+    public List<Company> findAll(Pageable pageable, boolean isContent) {
         if (pageable != null) {
-            return companyRepository.findAll(pageable).getContent();
+            return companyRepository.findCompaniesWithEmployees(pageable).getContent();
         } else {
-            return companyRepository.findAll();
+            if (!isContent){
+                return companyRepository.findAll();
+            }else {
+                return  companyRepository.findCompaniesWithEmployees();
+            }
         }
     }
 

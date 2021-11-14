@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 
+//@NamedEntityGraph(name = "Company.companyWithEmployees", attributeNodes = {@NamedAttributeNode(value = "employeesList"), @NamedAttributeNode(value = "companyTypeFromDB")})
 @Entity(name = "Company")
 @Table(name = "company")
 @Data
@@ -38,7 +39,7 @@ public class Company {
     @NonNull
     CompanyType companyType;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @CompanyTypeDB
     @NonNull
     @EqualsAndHashCode.Exclude CompanyTypeFromDB companyTypeFromDB;

@@ -8,7 +8,8 @@ spring:
   mvc:
     format:
       date-time: yyyy-MM-dd HH:mm:ss
-
+  jpa:
+    open-in-view: false
 hr:
   limits:
     1: 1

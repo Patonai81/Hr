@@ -37,7 +37,7 @@ public class CompanRestController {
 
     //  @RequestMapping(value = {"", "/{id}"}, method = RequestMethod.GET)
     @RequestMapping(value = {""}, method = RequestMethod.GET)
-    public List<CompanyDto> getCompany(@RequestParam(name = "full", required = false) String full) {
+    public List<CompanyDto> getCompany(@RequestParam(name = "full", required = false) Boolean full) {
 
         //Megoldás 1
         /*
@@ -47,10 +47,10 @@ public class CompanRestController {
         return createFilterCompanyList(companyService.findAll(), false);
 
 */
-        if (null == full || "false".equalsIgnoreCase(full)) {
-            return companyMapper.toCompanyDtoListWithoutEmployee(companyService.findAll());
+        if (!full) {
+            return companyMapper.toCompanyDtoListWithoutEmployee(companyService.findAll(false));
         } else {
-            return companyMapper.toCompanyDtoList(companyService.findAll());
+            return companyMapper.toCompanyDtoList(companyService.findAll(true));
         }
 
     }
@@ -64,7 +64,7 @@ public class CompanRestController {
         Pageable paging = PageRequest.of(page, size, Sort.by("name"));
 
         if (companyNameFragment == null)
-            companies = companyService.findAll(paging);
+            companies = companyService.findAll(paging,true);
         else
             //TODO implement
             return null;
@@ -121,20 +121,6 @@ public class CompanRestController {
     public void replaceEmployees(@PathVariable Integer companyId, @RequestBody List<EmployeeDto> employeeDtoList) {
         companyService.replaceEmployees(companyId, employeeMapper.toEmployeeList(employeeDtoList));
     }
-
-
-    //Megoldás 1. a filterelésre
-    private List<CompanyDto> createFilterCompanyList(List<Company> input, Boolean filterEmployee) {
-        return companyService.findAll().stream().map((item) -> {
-            CompanyDto internal = companyMapper.toCompanyDto(item);
-            if (filterEmployee) {
-                internal.setEmployeesList(null);
-            }
-            return internal;
-
-        }).collect(Collectors.toList());
-    }
-
 
 }
 
