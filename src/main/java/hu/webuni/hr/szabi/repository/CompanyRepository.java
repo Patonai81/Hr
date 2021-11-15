@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.lang.NonNull;
 
+import javax.persistence.NamedEntityGraph;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,13 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
             countQuery = "SELECT count(*) FROM Company c",
             nativeQuery = true)
     Page<Company> findCompaniesWithEmployeesWithPaginationNative(Pageable pageable);
+
+    @EntityGraph("Company.companyWithEmployees")
+    @Query("select c from Company c where c.companyId = :companyId")
+    @NonNull
+    Optional <Company> findCompanyByCompanyId(@Param("companyId") Long companyId);
+
+
 
     @EntityGraph("Company.companyWithEmployees")
     //@EntityGraph(attributePaths = {"employeesList","companyTypeFromDB"})

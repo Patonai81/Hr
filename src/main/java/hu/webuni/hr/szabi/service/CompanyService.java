@@ -15,7 +15,6 @@ import hu.webuni.hr.szabi.repository.result.CompanyBYAVGSalaryResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +26,7 @@ import java.util.Optional;
 @Service
 public class CompanyService {
 
-    private final String segédmunkás = "Segédmunkás";
+    private final String segedmunkas = "Segédmunkás";
     @Autowired
     EmployeeService employeeService;
 
@@ -69,7 +68,7 @@ public class CompanyService {
 
 
     public Company findById(Integer id) {
-        Company company = companyRepository.findById(id.longValue()).orElseThrow(() -> new CompanyNotFoundException("Could not find company with a given ID" + id));
+        Company company = companyRepository.findCompanyByCompanyId(id.longValue()).orElseThrow(() -> new CompanyNotFoundException("Could not find company with a given ID" + id));
         logger.debug("findById", company);
         return company;
     }
@@ -107,6 +106,7 @@ public class CompanyService {
         return employee;
     }
 
+    @Transactional
     public Employee removeEmployee(Integer companyId, Integer employeeId) {
         try {
             Employee employeeServiceByid = employeeService.findByid(employeeId);
@@ -144,7 +144,8 @@ public class CompanyService {
     public void replaceEmployees(Integer companyId, List<Employee> employeeList) {
         try {
             Company companyToBeModified = findById(companyId);
-            companyToBeModified.setEmployeesList(employeeList);
+      //      companyToBeModified.setEmployeesList(employeeList);
+            companyToBeModified.replaceEmployees(employeeList);
 
         } finally {
             logger.debug("Company successfuly replaced" + companyId);

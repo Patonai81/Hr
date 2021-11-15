@@ -60,9 +60,14 @@ public class Company {
     @Transactional
     public void removeEmployee (Employee employee){
         employeesList.remove(employee);
-        employee.setCompanyToWorkFor(null);
-        employee.setPosition(null);
     }
+
+    @Transactional
+    public void replaceEmployees (List<Employee> employeeList){
+            this.employeesList.retainAll(employeeList);
+            this.employeesList.addAll(employeeList);
+    }
+
 
     @Override
     public String toString() {
