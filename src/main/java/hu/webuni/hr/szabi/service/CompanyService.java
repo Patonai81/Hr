@@ -82,6 +82,11 @@ public class CompanyService {
         return saved;
     }
 
+
+    public Employee addEmployee(Employee employee) {
+        return this.addEmployee(employee.getCompanyToWorkFor().getCompanyId().intValue(),employee,employee.getPosition().getPositionName());
+    }
+
     @Transactional
     public Employee addEmployee(Integer companyId, Employee employee, String position) {
         try {
@@ -106,11 +111,9 @@ public class CompanyService {
         try {
             Employee employeeServiceByid = employeeService.findByid(employeeId);
             findById(companyId).removeEmployee(employeeServiceByid);
-            //Ha transactional akkor nem kötelező
-            // employeeRepository.save(employee);
             return employeeServiceByid;
         } finally {
-            logger.debug("Employee " + 1 + " successfully added to company id: " + companyId);
+            logger.debug("Employee " + employeeId + " successfully added to company id: " + companyId);
         }
     }
 

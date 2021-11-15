@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 
-//@NamedEntityGraph(name = "Company.companyWithEmployees", attributeNodes = {@NamedAttributeNode(value = "employeesList"), @NamedAttributeNode(value = "companyTypeFromDB")})
+@NamedEntityGraph(name = "Company.companyWithEmployees", attributeNodes = {@NamedAttributeNode(value = "employeesList"), @NamedAttributeNode(value = "companyTypeFromDB")})
 @Entity(name = "Company")
 @Table(name = "company")
 @Data

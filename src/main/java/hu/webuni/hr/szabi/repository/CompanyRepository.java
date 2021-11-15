@@ -35,6 +35,9 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     @Query("select c from Company c where c.name = :companyName")
     Optional<Company> findCompanyByName(@Param("companyName") String companyName);
 
+    @EntityGraph(attributePaths = {"employeesList","companyTypeFromDB"})
+    @Query("select c from Company c where c.name = :companyName")
+    Optional<Company> findCompanyByNameWithEmployeeList(@Param("companyName") String companyName);
 
     List<Company> findDistinctByEmployeesList_SalaryGreaterThanOrderByNameAsc(@NonNull Integer salary);
 

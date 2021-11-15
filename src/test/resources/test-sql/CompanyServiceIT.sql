@@ -1,0 +1,1 @@
+delete  from employee e where e.employee_name='Teszt T';
