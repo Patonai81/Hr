@@ -22,12 +22,13 @@ public class Company {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @EqualsAndHashCode.Exclude Long companyId;
+    @EqualsAndHashCode.Include Long companyId;
 
     @NonNull
-    String name;
+    @EqualsAndHashCode.Exclude String name;
+
     @NonNull
-    String address;
+    @EqualsAndHashCode.Exclude String address;
 
     @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true,
@@ -37,7 +38,7 @@ public class Company {
 
     @Enumerated(EnumType.STRING)
     @NonNull
-    CompanyType companyType;
+    @EqualsAndHashCode.Exclude CompanyType companyType;
 
     @ManyToOne
     @CompanyTypeDB

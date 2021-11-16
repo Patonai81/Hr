@@ -19,25 +19,28 @@ public class Employee {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @EqualsAndHashCode.Exclude
+    @EqualsAndHashCode.Include
     Long id;
 
     /**
      * Name of employee
      */
     @NonNull
+    @EqualsAndHashCode.Exclude
     String employeeName;
 
     /**
      * Current salarí of employee
      */
     @NonNull
+    @EqualsAndHashCode.Exclude
     Integer salary;
 
     /**
      * Time of employee entry
      */
     @NonNull
+    @EqualsAndHashCode.Exclude
     public LocalDateTime startWork;
 
     @ManyToOne(fetch = FetchType.LAZY)

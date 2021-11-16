@@ -144,8 +144,8 @@ public class CompanyService {
     public void replaceEmployees(Integer companyId, List<Employee> employeeList) {
         try {
             Company companyToBeModified = findById(companyId);
-      //      companyToBeModified.setEmployeesList(employeeList);
-            companyToBeModified.replaceEmployees(employeeList);
+            companyToBeModified.setEmployeesList(employeeList);
+      //      companyToBeModified.replaceEmployees(employeeList);
 
         } finally {
             logger.debug("Company successfuly replaced" + companyId);
