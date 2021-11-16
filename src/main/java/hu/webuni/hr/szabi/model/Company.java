@@ -51,19 +51,16 @@ public class Company {
         this(input.name, input.address,null, input.companyType, input.companyTypeFromDB);
     }
 
-    @Transactional
     public void addEmployee(Employee employee,Position position){
         employeesList.add(employee);
         employee.setCompanyToWorkFor(this);
         employee.setPosition(position);
 
     }
-    @Transactional
     public void removeEmployee (Employee employee){
         employeesList.remove(employee);
     }
 
-    @Transactional
     public void replaceEmployees (List<Employee> employeeList){
             this.employeesList.retainAll(employeeList);
             this.employeesList.addAll(employeeList);

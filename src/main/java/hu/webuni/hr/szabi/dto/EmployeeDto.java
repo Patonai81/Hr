@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-@RequiredArgsConstructor
 @EqualsAndHashCode
 public class EmployeeDto {
 
@@ -24,7 +23,6 @@ public class EmployeeDto {
      * Name of employee
      */
     @NotEmpty
-    @NonNull
     String employeeName;
 
 
@@ -32,7 +30,6 @@ public class EmployeeDto {
      * Current salarí of employee
      */
     @RealSalary
-    @NonNull
     Integer salary;
 
     /**
@@ -40,7 +37,6 @@ public class EmployeeDto {
      */
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Future
-    @NonNull
     public LocalDateTime startWork;
 
 
@@ -51,4 +47,9 @@ public class EmployeeDto {
     }
 
 
+    public EmployeeDto(String employeeName, int salary, LocalDateTime startWork) {
+        this.employeeName=employeeName;
+        this.salary=salary;
+        this.startWork=startWork;
+    }
 }

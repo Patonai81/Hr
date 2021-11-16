@@ -87,6 +87,7 @@ public class CompanRestController {
         return ResponseEntity.ok(companyMapper.toCompanyDtoList(companyService.findCompaniesWithEmployeeNUmberGtCondition(employeeNum)));
     }
 
+
     @GetMapping("/getCompanyByAVGSalary")
     public List<CompanyBYAVGSalaryResult> getCompanyByAVGSalary() {
         return companyService.queryCompanyListAggregatedByAssignmentAndAvgSalaryOrderByAvgSalaryDesc();

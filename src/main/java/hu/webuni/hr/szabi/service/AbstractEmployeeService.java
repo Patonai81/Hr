@@ -9,13 +9,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import static hu.webuni.hr.szabi.service.specification.EmployeeSpecification.*;
 
 @Component
 @Profile("none")
@@ -52,8 +57,36 @@ public abstract class AbstractEmployeeService implements EmployeeService {
     }
 
     @Override
-    public List <Employee> findBySalaryGt(Integer salary){
+    public List<Employee> findBySalaryGt(Integer salary) {
         return employeeRepository.findEmployeeSalaryGreaterThan(salary);
+    }
+
+    @Override
+    public List<Employee> findEmployeeBySpec(Employee employee) {
+
+
+        Specification<Employee> findEmployeeBySpec = Specification.where(null);
+
+        if (employee.getId() != null) {
+            findEmployeeBySpec= findEmployeeBySpec.and(hasId(employee.getId()));
+        }
+        if (StringUtils.hasText(employee.getEmployeeName())) {
+            findEmployeeBySpec= findEmployeeBySpec.and(hasName(employee.getEmployeeName()));
+        }
+        if (employee.getPosition() != null) {
+            findEmployeeBySpec= findEmployeeBySpec.and(hasPosition(employee.getPosition().getPositionName()));
+        }
+        if (employee.getSalary() != null) {
+            findEmployeeBySpec= findEmployeeBySpec.and(hasSalary(employee.getSalary()));
+        }
+        if (employee.getStartWork() != null) {
+            findEmployeeBySpec= findEmployeeBySpec.and(hasStartWork(employee.getStartWork()));
+        }
+        if (employee.getCompanyToWorkFor() != null){
+            findEmployeeBySpec= findEmployeeBySpec.and(hasCompanyWorkFor(employee.getCompanyToWorkFor()));
+        }
+
+        return employeeRepository.findAll(findEmployeeBySpec,Sort.by("id"));
     }
 
 

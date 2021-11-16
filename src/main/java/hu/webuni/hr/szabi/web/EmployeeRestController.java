@@ -46,6 +46,11 @@ public class EmployeeRestController {
         return employeeMapperecske.toEmployeeDto(employeeService.findByid(id));
     }
 
+    @GetMapping("/spec")
+    public List<EmployeeDto> getEmployeeListBySpec(@RequestBody EmployeeDto employeeDto) {
+        return employeeMapperecske.toEmployeeDtoList(employeeService.findEmployeeBySpec(employeeMapperecske.toEmployee(employeeDto)));
+    }
+
 
     @PostMapping
     public ResponseEntity<EmployeeDto> addNewEmployee(@RequestBody EmployeeDto employeeDto, BindingResult result) {

@@ -24,6 +24,8 @@ public interface EmployeeService {
 
     List <Employee> findBySalaryGt(Integer salary);
 
+    List<Employee> findEmployeeBySpec(Employee employee);
+
     Employee save(Employee employee);
 
     void saveAll(List<Employee> employeeList);

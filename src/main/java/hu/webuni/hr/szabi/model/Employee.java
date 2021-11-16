@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Table(name = "employee")
 @NamedQuery(name = "Employee.whatIs", query = "SELECT  e from Employee e where e.position.positionName like '%Wo%' ")
 @Data
-@RequiredArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Employee {
@@ -25,33 +24,39 @@ public class Employee {
     /**
      * Name of employee
      */
-    @NonNull
+
     @EqualsAndHashCode.Exclude
     String employeeName;
 
     /**
      * Current salarí of employee
      */
-    @NonNull
+
     @EqualsAndHashCode.Exclude
     Integer salary;
 
     /**
      * Time of employee entry
      */
-    @NonNull
+
     @EqualsAndHashCode.Exclude
     public LocalDateTime startWork;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @NonNull
     @EqualsAndHashCode.Exclude
     Company companyToWorkFor;
 
     @ManyToOne
-    @NonNull
     @EqualsAndHashCode.Exclude
     Position position;
+
+    public Employee(String employeeName, int salary, LocalDateTime startWork, Company company, Position position) {
+        this.employeeName=employeeName;
+        this.salary=salary;
+        this.startWork=startWork;
+        this.companyToWorkFor=company;
+        this.position=position;
+    }
 
     @Override
     public String toString() {
