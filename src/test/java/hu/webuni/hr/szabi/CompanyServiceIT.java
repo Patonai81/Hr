@@ -9,14 +9,12 @@ import hu.webuni.hr.szabi.repository.PositionRepository;
 import hu.webuni.hr.szabi.service.CompanyService;
 import hu.webuni.hr.szabi.service.EmployeeService;
 import hu.webuni.hr.szabi.service.InitDbService;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.event.annotation.BeforeTestExecution;
 
 import java.time.LocalDateTime;
 import java.time.Month;

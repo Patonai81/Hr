@@ -20,7 +20,6 @@ public class EmployeeDtoValidator implements Validator {
     public void validate(Object o, Errors errors) {
         EmployeeDto employeeDto = (EmployeeDto) o;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "employeeName", "error.employeeName", "Name is required.");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "assignment", "error.assignment", "Assignment is required.");
 
         if (employeeDto.getSalary() < 0){
             errors.rejectValue("salary","salary");

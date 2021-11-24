@@ -37,7 +37,7 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     Page<Company> findCompaniesWithEmployees(Pageable pageable);
 
 
-    @Query("select c FROM Company c LEFT JOIN FETCH c.employeesList")
+    @Query("select distinct c FROM Company c LEFT JOIN FETCH c.employeesList")
     List<Company> findCompaniesWithEmployees();
 
     @Query("select c from Company c where c.name = :companyName")
@@ -54,8 +54,11 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     group by (c.name)
     having count(e.company_to_work_for_company_id) >1;
      */
-    @Query("select c from Company c left join c.employeesList employeesList group by c having count(employeesList.companyToWorkFor) > :numberOfEmployees")
-    List<Company> queryCompanyListWhereEmployeeNumberGt(@Param("numberOfEmployees") Long numberOfEmployees);
+
+    //@Query("select c from Company c left join c.employeesList employeesList group by c having count(employeesList.companyToWorkFor) > :numberOfEmployees")
+    @EntityGraph(attributePaths = {"employeesList","companyTypeFromDB"})
+    @Query("select c from Company c where size(c.employeesList) > :numberOfEmployees ")
+    List<Company> queryCompanyListWhereEmployeeNumberGt(@Param("numberOfEmployees") Integer numberOfEmployees);
 
     /*
     select  c.name,e.assignment,count(e.assignment), avg(e.salary) from company c INNER JOIN employee e on c.company_id = e.company_to_work_for_company_id

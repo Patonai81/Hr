@@ -93,9 +93,6 @@ public abstract class AbstractEmployeeService implements EmployeeService {
     @Override
     @Transactional
     public Employee save(Employee employee) {
-        if (checkExist(employee.getId().intValue())) {
-            throw new EmployeeCouldNotBeCreatedException("Given ID is not unique: " + employee.getId().intValue());
-        }
         employeeRepository.save(employee);
         logger.debug("Employee successfully created with id: " + employee.getId());
         return employee;

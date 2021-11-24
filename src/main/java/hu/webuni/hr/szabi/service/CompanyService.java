@@ -158,7 +158,7 @@ public class CompanyService {
 
     public List<Company> findCompaniesWithEmployeeNUmberGtCondition(Integer employeeNumber) {
         logger.debug("Looking for companies salary greater than: " + employeeNumber);
-        return companyRepository.queryCompanyListWhereEmployeeNumberGt(employeeNumber.longValue());
+        return companyRepository.queryCompanyListWhereEmployeeNumberGt(employeeNumber);
     }
 
     public List<CompanyBYAVGSalaryResult> queryCompanyListAggregatedByAssignmentAndAvgSalaryOrderByAvgSalaryDesc() {

@@ -2,8 +2,7 @@ package hu.webuni.hr.szabi;
 
 import hu.webuni.hr.szabi.dto.EmployeeDto;
 import hu.webuni.hr.szabi.web.MyErrorObject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -11,7 +10,6 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -21,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
 
-@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment= WebEnvironment.RANDOM_PORT)
 public class HrApplicationTestsRestTemplateIT {
 
@@ -56,7 +53,7 @@ public class HrApplicationTestsRestTemplateIT {
         URI uri = new URI(baseUrl);
 
 
-        EmployeeDto employee = new EmployeeDto("Béla",  2000, LocalDateTime.of(2018, 4, 13, 8, 0, 0));
+        EmployeeDto employee = new EmployeeDto("Béla",  0, LocalDateTime.of(2026, 4, 13, 8, 0, 0));
 
         HttpHeaders headers = new HttpHeaders();
         //headers.set("X-COM-PERSIST", "true");

@@ -14,7 +14,7 @@ public class EmployeeSpecification {
 
     public static Specification<Employee> hasName(String name) {
         return ((root, criteriaQuery, criteriaBuilder) -> {
-          return  criteriaBuilder.like(criteriaBuilder.lower(root.get(Employee_.employeeName)),"%"+name.toLowerCase()+"%");
+          return  criteriaBuilder.like(criteriaBuilder.lower(root.get(Employee_.employeeName)),name.toLowerCase()+"%");
         });
     }
 
